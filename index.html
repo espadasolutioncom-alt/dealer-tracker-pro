@@ -2,10 +2,9 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Dealer Tracker</title>
-<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#1f3864"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0b0b0e"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="mobile-web-app-capable" content="yes">
 <style>
-:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f5f6f8;--card:#fff;--tx:#14213d;--mu:#667085;--ac:#1f3864;--ln:#e0e3e8;--ok:#1b7f3b;--bad:#c0392b;--hd:#1f3864;--hdt:#fff}
-@media(prefers-color-scheme:dark){:root{--bg:#10141c;--card:#1a2030;--tx:#e8ecf4;--mu:#9aa5b8;--ac:#7fa6e8;--ln:#2d3548;--ok:#5cc07a;--bad:#ff7b6b;--hd:#2a3a60;color-scheme:dark}}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#0b0b0e;--card:#16161c;--tx:#f5efe2;--mu:#b3ab9a;--ac:#d4af37;--act:#14110a;--ln:#33302a;--ok:#4fd18b;--bad:#ff6f61;--hd:#050507;--hdt:#f5efe2;color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.4 Arial,Helvetica,sans-serif}
 header{padding:14px 16px;background:var(--hd);color:var(--hdt)}
@@ -42,8 +41,6 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 #pl{margin:10px 0;padding:10px;border:2px solid var(--ln);border-radius:8px;font-size:15px}
 @media(max-width:600px){.ex{grid-template-columns:1fr 110px}.g2{grid-template-columns:1fr}input,select,textarea{font-size:16px}.btn{padding:11px 14px}main{padding:8px}.kpi b{font-size:16px}}
 #auth{display:none;max-width:380px;margin:40px auto;padding:0 12px}body.out #auth{display:block}body:not(.in) header,body:not(.in) nav,body:not(.in) main{display:none}
-:root[data-theme=light]{--bg:#f5f6f8;--card:#fff;--tx:#14213d;--mu:#667085;--ac:#1f3864;--ln:#e0e3e8;--ok:#1b7f3b;--bad:#c0392b;--hd:#1f3864;color-scheme:light}
-:root[data-theme=dark]{--bg:#10141c;--card:#1a2030;--tx:#e8ecf4;--mu:#9aa5b8;--ac:#7fa6e8;--ln:#2d3548;--ok:#5cc07a;--bad:#ff7b6b;--hd:#2a3a60;color-scheme:dark}
 dialog{max-height:92vh;overflow:auto}
 .btn.s{background:var(--ac);color:var(--act,var(--card))}.btn:hover{filter:brightness(1.12)}.btn:active{transform:scale(.97)}a.btn{text-decoration:none;display:inline-block}.btn.s,.btn{margin:1px}
 .btn,.btn.s{box-shadow:inset 0 0 0 1px rgba(128,128,128,.3)}
@@ -51,12 +48,34 @@ dialog{max-height:92vh;overflow:auto}
 .bd{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:700;border:1px solid currentColor}.bd.a{color:var(--ok)}.bd.b{color:#b45309}.bd.r{color:var(--bad)}
 #ld{position:fixed;inset:0;background:var(--bg);z-index:200;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:var(--mu)}#ld .spin{width:34px;height:34px;border-width:4px}
 #prt{display:none}
-@media print{body>*:not(#prt){display:none!important}#prt{display:block;background:#fff;color:#000;font:12px Arial;--bg:#fff;--card:#fff;--tx:#000;--mu:#444;--ln:#bbb;--ok:#1b7f3b;--bad:#c0392b;--hd:#1f3864;--hdt:#fff}#prt *{-webkit-print-color-adjust:exact;print-color-adjust:exact}#prt table{min-width:0;font-size:11px}#prt .np{display:none}#prt tr.c{cursor:auto}.card,.kpi{break-inside:avoid}}
+@media print{body>*:not(#prt){display:none!important}#prt{display:block;background:#fff;color:#000;font:12px Arial;--bg:#fff;--card:#fff;--tx:#000;--mu:#444;--ln:#bbb;--ok:#1b7f3b;--bad:#c0392b;--hd:#1a1a1a;--hdt:#fff}#prt *{-webkit-print-color-adjust:exact;print-color-adjust:exact}#prt table{min-width:0;font-size:11px}#prt .np{display:none}#prt tr.c{cursor:auto}.card,.kpi{break-inside:avoid}}
+
+body{font-family:"Helvetica Neue",Arial,sans-serif;background:radial-gradient(1200px 500px at 50% -10%,#1d1a12 0,var(--bg) 60%) fixed}
+header{background:linear-gradient(135deg,#000,#1a1710);border-bottom:2px solid var(--ac)}
+header h1{font:700 26px/1.1 "Cormorant Garamond",Georgia,serif;letter-spacing:.06em;color:var(--ac);text-transform:uppercase}
+header .btn.g{color:var(--ac)!important;border-color:rgba(212,175,55,.55)!important}
+nav{background:#0e0e12;border-bottom:1px solid var(--ln)}nav button:hover{color:var(--ac)}
+nav button.on{background:linear-gradient(135deg,#f0d78a,#d4af37 55%,#a67c1a);color:#14110a}
+.btn{background:linear-gradient(135deg,#f0d78a,#d4af37 55%,#a67c1a);color:#14110a;letter-spacing:.02em}
+.btn.g{background:transparent;color:var(--tx);border:1px solid var(--ln)}.btn.g:hover{border-color:var(--ac);color:var(--ac)}.btn.g.on{background:var(--ac);color:#14110a}.btn.d{background:var(--bad);color:#fff}
+.btn.s{background:linear-gradient(135deg,#f0d78a,#d4af37 55%,#a67c1a);color:#14110a}
+.card,.kpi{background:linear-gradient(180deg,#1a1a21,#121217);border-color:#2c2a24;box-shadow:0 6px 22px rgba(0,0,0,.45)}
+.kpi b{color:var(--ac)}th{border-bottom:2px solid var(--ac);color:var(--ac)}tr.c:hover td{background:#1d1c22}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--ac);outline-offset:0}
+.warn{background:rgba(212,175,55,.12);color:#f0d78a;border:1px solid rgba(212,175,55,.35)}.bd.b{color:#e8b94a}
+.sec,dialog h3,dialog h2{font-family:"Cormorant Garamond",Georgia,serif;letter-spacing:.04em;color:var(--ac)}.sec{font-size:20px}
+dialog{border-color:var(--ac)}.bb,.pg i{background:var(--ac)}.pg i{background:var(--ok)}
+#auth .card{border:1px solid var(--ac)}#auth h2{font-size:30px;text-align:center;margin-bottom:14px}
+#pw{display:none;position:fixed;inset:0;z-index:150;background:rgba(5,5,7,.96);align-items:center;justify-content:center;padding:16px;overflow:auto}
+.pwc{max-width:440px;width:100%;text-align:center;border:1px solid var(--ac);border-radius:16px;padding:28px 22px;background:linear-gradient(180deg,#1a1a21,#0f0f13);box-shadow:0 0 60px rgba(212,175,55,.15)}
+.pwk{font-size:12px;letter-spacing:.35em;color:var(--mu)}.pwc h2{font-size:30px;margin:10px 0}.pwp b{font:700 56px "Cormorant Garamond",Georgia,serif;color:var(--ac)}.pwp span{color:var(--mu)}
+.pwc .btn{display:block;width:100%;margin:10px 0}.pwx{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:14px;border-top:1px solid var(--ln);padding-top:12px}
 </style></head><body>
 <header style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div style="display:flex;align-items:center;gap:10px"><img id="lg" alt="" style="display:none;height:38px;max-width:90px;object-fit:contain;border-radius:6px;background:#fff"><div><h1 id="bn">Dealer Tracker</h1><p><span id="cs"></span></p></div></div><div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end"><button class="btn g" id="admb" style="display:none;color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="openAdm()">🛡 Admin</button> <button class="btn g" style="color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="openSub()">💳 Plan</button> <button class="btn g" style="color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="printRep()">🖨 Print</button> <button class="btn g" style="color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="openS()">⚙ Settings</button> <button class="btn g" style="color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="firebase.auth().signOut()">Log out</button></div></header>
 <nav id="nav"><button data-t="w" class="on">Overview</button><button data-t="v">Vehicles</button><button data-t="o">Sold</button><button data-t="d">Daily</button><button data-t="e">Expenses</button><button data-t="s">Monthly</button><button data-t="c">Custom</button><button data-t="r">Receivables</button><button data-t="n">Rentals</button><button data-t="p">Progress</button><button data-t="t">Staff</button><button data-t="l">Leads</button><button data-t="x">Reports</button></nav><div id="trb" style="display:none;padding:8px 12px;text-align:center;font-weight:700"></div>
 <div id="auth"><div class="card"><h2 style="margin-top:0">Dealer Tracker</h2><div id="an" style="display:none;margin-bottom:8px"><label>Dealership name</label><input id="anm"></div><label>Email</label><input id="ae" type="email" autocomplete="username" style="margin-bottom:8px"><label>Password (min 6 characters)</label><input id="ap" type="password" autocomplete="current-password" style="margin-bottom:12px" onkeydown="if(event.key==='Enter')adone()"><button class="btn" id="ab" onclick="adone()" style="width:100%">Sign in</button><button class="btn g" onclick="gsign()" style="width:100%;margin-top:8px">Continue with Google</button><p class="note" id="amsg" style="color:var(--bad)"></p><p class="note"><a href="#" id="at" onclick="amode(!SU);return false">New dealership? Create an account</a> · <a href="#" onclick="forgot();return false">Forgot password?</a> · <a href="#" onclick="openP();return false">Privacy policy</a></p></div></div>
 <main id="app"></main>
+<div id="pw"><div class="pwc"><div class="pwk">DEALER TRACKER</div><h2 id="pwt">Your free trial has ended</h2><div class="pwp"><b id="pwprice"></b><span> / month</span></div><p class="note" style="font-size:14px">Your data is safe and untouched. Subscribe to continue. Billed on the 10th of every month.</p><a id="pwpay" class="btn" target="_blank" rel="noopener">Pay securely with Stripe</a><button type="button" class="btn g" id="pwr" onclick="pwRefresh()">I've paid – refresh status</button><p class="note">Secure checkout by Stripe. Access switches on automatically after payment.</p><div class="pwx"><button type="button" class="btn g s" onclick="exCSV('inv')">Export stock</button><button type="button" class="btn g s" onclick="exCSV('sold')">Export sales</button><button type="button" class="btn g s" onclick="exCSV('exp')">Export expenses</button><button type="button" class="btn g s" onclick="firebase.auth().signOut()">Log out</button></div></div></div>
 <div id="ld"><span class="spin"></span><div>Loading your data…</div></div><div id="prt"></div>
 <input type="file" id="imp" accept=".json" hidden>
 <dialog id="pdlg"></dialog>
@@ -129,10 +148,10 @@ function amode(m){SU=m?1:0;$("#an").style.display=SU?"block":"none";$("#ab").tex
 function adone(){var e=$("#ae").value.trim(),p=$("#ap").value,nm=$("#anm").value.trim(),msg=$("#amsg"),A=firebase.auth();msg.textContent="";
 if(!e||!p){msg.textContent="Enter email and password.";return}
 if(SU&&!nm){msg.textContent="Enter your dealership name.";return}
-msg.textContent="Please wait…";
-(SU?A.createUserWithEmailAndPassword(e,p).then(function(c){c.user.sendEmailVerification().catch(function(){});return fdb.collection("users").doc(c.user.uid).collection("meta").doc("settings").set({name:nm})}):A.signInWithEmailAndPassword(e,p)).then(function(){msg.textContent=""}).catch(function(x){msg.textContent=x.message})}
+msg.textContent="Please wait…";$("#ab").disabled=true;setTimeout(function(){$("#ab").disabled=false},4000);
+(SU?A.createUserWithEmailAndPassword(e,p).then(function(c){c.user.sendEmailVerification().catch(function(){});return fdb.collection("users").doc(c.user.uid).collection("meta").doc("settings").set({name:nm})}):A.signInWithEmailAndPassword(e,p)).then(function(){msg.textContent=""}).catch(function(x){msg.textContent=fe(x)})}
 function forgot(){var e=$("#ae").value.trim(),msg=$("#amsg");if(!e){msg.textContent="Type your email first.";return}
-firebase.auth().sendPasswordResetEmail(e).then(function(){msg.textContent="Password reset email sent."}).catch(function(x){msg.textContent=x.message})}
+firebase.auth().sendPasswordResetEmail(e).then(function(){msg.textContent="Password reset email sent."}).catch(function(x){msg.textContent=fe(x)})}
 var PRIV_EMAIL="support@yourcompany.com",LG="";
 function openP(){$("#pdlg").innerHTML=`<h3 style="margin-top:0">Privacy Policy</h3><p class="note">Last updated: November 10, 2026</p>
 <p><b>1. Who we are.</b> This app helps dealerships track vehicles, sales, expenses and finances. “We” means the operator of this app. Contact: ${PRIV_EMAIL}.</p>
@@ -146,17 +165,14 @@ function openP(){$("#pdlg").innerHTML=`<h3 style="margin-top:0">Privacy Policy</
 <p><b>9. Children.</b> The app is for businesses and is not meant for people under 18.</p>
 <p><b>10. Changes.</b> We may update this policy and will change the date above when we do.</p>
 <div class="bar"><button class="btn" onclick="$('#pdlg').close()">Close</button></div>`;$("#pdlg").showModal()}
-function applyTheme(){var m=SET.theme||"auto",a=SET.ac,r=document.documentElement;
-if(m==="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",m);
-if(a&&a.toLowerCase()!=="#1f3864"){var q=parseInt(a.slice(1),16),L=.299*(q>>16)+.587*((q>>8)&255)+.114*(q&255),t=L>150?"#14213d":"#ffffff";r.style.setProperty("--ac",a);r.style.setProperty("--hd",a);r.style.setProperty("--act",t);r.style.setProperty("--hdt",t)}else{["--ac","--hd","--act","--hdt"].forEach(function(k){r.style.removeProperty(k)})}
-var l=$("#lg");if(l){if(SET.logo)l.src=SET.logo;l.style.display=SET.logo?"block":"none"}}
+function applyTheme(){var l=$("#lg");if(l){if(SET.logo)l.src=SET.logo;l.style.display=SET.logo?"block":"none"}}
 function addSt(x){x=x||{};var d=document.createElement("div");d.className="sr";d.style.cssText="display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:6px;margin-bottom:6px";
 d.innerHTML='<input placeholder="Name" value="'+ea(x.name)+'"><input placeholder="Role (e.g. Salesperson)" value="'+ea(x.role)+'"><input placeholder="Phone" value="'+ea(x.phone)+'"><input type="number" step="any" placeholder="Comm. %" value="'+ea(x.cr)+'"><input type="number" step="any" placeholder="Flat £/car" value="'+ea(x.cf)+'"><button type="button" class="btn d" onclick="this.parentNode.remove()">Remove</button>';$("#stf").appendChild(d)}
 var CURS=["£","$","€","Rs","AED","SAR","CAD $","AUD $"],_as;
 var CUR=function(){return SET.cur||"$"};
 function fixCur(r){var c=CUR();if(c==="£"||!r)return;r.querySelectorAll("label").forEach(function(l){l.childNodes.forEach(function(t){if(t.nodeType===3)t.textContent=t.textContent.replace(/£/g,c)})});r.querySelectorAll("input[placeholder]").forEach(function(i){i.placeholder=i.placeholder.replace(/£/g,c)})}
 var _sm=HTMLDialogElement.prototype.showModal;HTMLDialogElement.prototype.showModal=function(){_sm.call(this);fixCur(this)};
-function setSet(o){Object.assign(SET,o);fdb.collection("users").doc(UID).collection("meta").doc("settings").set(o,{merge:true}).catch(cerr);render()}
+function setSet(o){if(locked())return;Object.assign(SET,o);fdb.collection("users").doc(UID).collection("meta").doc("settings").set(o,{merge:true}).catch(cerr);render()}
 function showLd(){$("#ld").style.display="flex";setTimeout(hideLd,6000)}
 function hideLd(){$("#ld").style.display="none"}
 function autoS(e){if(e&&e.target&&e.target.type==="file")return;if(!$("#frm").elements.cats)return;clearTimeout(_as);_as=setTimeout(function(){saveS(1)},600)}
@@ -164,7 +180,7 @@ function openS(){LG=SET.logo||"";var u=firebase.auth().currentUser||{},g=(u.prov
 H=function(t){return'<h4 style="margin:18px 0 6px;border-bottom:1px solid var(--ln);padding-bottom:4px">'+t+'</h4>'};
 $("#frm").oninput=null;
 $("#frm").innerHTML='<h3 style="margin-top:0">Settings <span id="asv" class="pos" style="font-size:12px;font-weight:400"></span></h3><p class="note">Changes save automatically.</p>'+H("Dealership profile")+'<label>Dealership name</label><input name="nm" value="'+ea(SET.name)+'"><label style="margin-top:8px">Account owner name (printed on the Finance PDF)</label><input name="own" value="'+ea(SET.owner)+'"><label style="margin-top:8px">Address / phone (shown on reports)</label><input name="addr" value="'+ea(SET.addr)+'"><label style="margin-top:8px">Logo</label><div class="bar"><img id="lgp" alt="" style="height:44px;max-width:120px;object-fit:contain;display:'+(LG?"block":"none")+'" src="'+ea(LG)+'"><input type="file" id="lgf" accept="image/*" style="width:auto;max-width:200px"><button type="button" class="btn g" onclick="LG=\'\';$(\'#lgp\').style.display=\'none\';autoS()">Remove logo</button></div>'
-+H("Appearance &amp; currency")+'<div class="g2"><div><label>Mode</label><select name="th"><option value="auto"'+(th==="auto"?" selected":"")+'>Automatic (device)</option><option value="light"'+(th==="light"?" selected":"")+'>Light</option><option value="dark"'+(th==="dark"?" selected":"")+'>Dark</option></select></div><div><label>Accent colour (text adjusts automatically)</label><input name="ac" type="color" value="'+ea(SET.ac||"#1f3864")+'" style="height:38px;padding:2px"></div><div><label>Currency</label><select name="cur">'+CURS.map(function(c){return'<option'+(c===CUR()?" selected":"")+'>'+c+'</option>'}).join("")+'</select></div></div>'
++H("Currency")+'<div class="g2"><div><label>Currency</label><select name="cur">'+CURS.map(function(c){return'<option'+(c===CUR()?" selected":"")+'>'+c+'</option>'}).join("")+'</select></div></div>'
 +H("Account")+'<p class="note">Signed in as <b>'+esc(u.email)+'</b></p><label>New email address</label><input name="ne" type="email" placeholder="new@email.com"><div class="bar" style="margin-top:8px"><button type="button" class="btn g" onclick="chEmail()">Change email</button><button type="button" class="btn g" onclick="linkG()">'+(g?"✓ Google linked":"Link Google account")+'</button><button type="button" class="btn g" onclick="forgotS()">Reset password</button></div><p class="note" id="acm"></p>'
 +H("Business rules")+'<div class="g2"><div><label>Aging alert after (days)</label><input name="age" type="number" value="'+ea(SET.age||45)+'"></div><div><label>Default commission (% of profit)</label><input name="cp" type="number" step="any" value="'+ea(SET.cp||0)+'"></div><div><label>Opening cash / bank balance (£)</label><input name="ob" type="number" step="any" value="'+ea(SET.ob||0)+'"></div></div><p class="note">Staff and their commission rates are in the Staff tab.</p><label>Expense categories (one per line)</label><textarea name="cats" rows="7">'+esc(CATS.join("\n"))+'</textarea><p class="note">Do not rename a category that already has entries.</p>'
 +'<p class="note"><a href="#" onclick="openP();return false">Privacy policy</a></p><div class="bar"><button type="button" class="btn" onclick="saveS()">Done</button></div>';
@@ -172,7 +188,7 @@ $("#frm").onchange=autoS;
 $("#lgf").onchange=function(){var f=this.files[0];if(!f)return;var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var k=Math.min(1,240/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);LG=c.toDataURL("image/png");if(LG.length>400000)LG=c.toDataURL("image/jpeg",.8);$("#lgp").src=LG;$("#lgp").style.display="block";autoS()};im.src=r.result};r.readAsDataURL(f)};
 $("#dlg").showModal()}
 function saveS(q){var e=$("#frm").elements;if(!e.cats)return;var c=e.cats.value.split("\n").map(function(s){return s.trim()}).filter(Boolean);if(!c.length){if(!q)alert("Add at least one category.");return}
-fdb.collection("users").doc(UID).collection("meta").doc("settings").set({name:e.nm.value.trim()||"Dealer Tracker",owner:e.own.value.trim(),addr:e.addr.value.trim(),logo:LG,theme:e.th.value,ac:e.ac.value,cur:e.cur.value,age:n(e.age.value)||45,cp:n(e.cp.value),ob:n(e.ob.value),cats:c},{merge:true}).then(function(){var m=$("#asv");if(m)m.textContent="✓ Saved";if(!q)$("#dlg").close()}).catch(cerr)}
+fdb.collection("users").doc(UID).collection("meta").doc("settings").set({name:e.nm.value.trim()||"Dealer Tracker",owner:e.own.value.trim(),addr:e.addr.value.trim(),logo:LG,cur:e.cur.value,age:n(e.age.value)||45,cp:n(e.cp.value),ob:n(e.ob.value),cats:c},{merge:true}).then(function(){var m=$("#asv");if(m)m.textContent="✓ Saved";if(!q)$("#dlg").close()}).catch(cerr)}
 function acm(t,bad){var e=$("#acm");if(e){e.textContent=t;e.style.color=bad?"var(--bad)":"var(--ok)"}}
 function reauth(){var u=firebase.auth().currentUser;if(u.providerData.some(function(p){return p.providerId==="password"})){var p=prompt("For security, enter your current password:");if(!p)return Promise.reject({message:"Cancelled."});return u.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(u.email,p))}return u.reauthenticateWithPopup(new firebase.auth.GoogleAuthProvider())}
 function chEmail(){var u=firebase.auth().currentUser,e=$("#frm").elements.ne.value.trim();if(!e){acm("Type the new email first.",1);return}
@@ -180,7 +196,7 @@ var go=function(){return u.verifyBeforeUpdateEmail(e).then(function(){acm("Verif
 go().catch(function(x){if(x.code==="auth/requires-recent-login")reauth().then(go).catch(function(y){acm(y.message,1)});else acm(x.message,1)})}
 function linkG(){var u=firebase.auth().currentUser;u.linkWithPopup(new firebase.auth.GoogleAuthProvider()).then(function(){acm("Google account linked. You can now sign in with Google.")}).catch(function(x){acm(x.code==="auth/credential-already-in-use"?"That Google account is already used by another account.":x.message,1)})}
 function forgotS(){firebase.auth().sendPasswordResetEmail(firebase.auth().currentUser.email).then(function(){acm("Password reset email sent.")}).catch(function(x){acm(x.message,1)})}
-function gsign(){var m=$("#amsg");m.textContent="";firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(function(c){if(c.additionalUserInfo&&c.additionalUserInfo.isNewUser)return fdb.collection("users").doc(c.user.uid).collection("meta").doc("settings").set({name:(c.user.displayName||"My")+" Dealership"})}).catch(function(x){m.textContent=x.message})}
+function gsign(){var m=$("#amsg");m.textContent="";firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(function(c){if(c.additionalUserInfo&&c.additionalUserInfo.isNewUser)return fdb.collection("users").doc(c.user.uid).collection("meta").doc("settings").set({name:(c.user.displayName||"My")+" Dealership"})}).catch(function(x){m.textContent=fe(x)})}
 function init(){if(!window.firebase||FC.apiKey.indexOf("PASTE")===0){document.body.className="out";$("#amsg").textContent="Firebase is not set up yet. Paste your Firebase config into index.html.";return}
 firebase.initializeApp(FC);fdb=firebase.firestore();try{fdb.enablePersistence({synchronizeTabs:true}).catch(function(){})}catch(e){}
 firebase.auth().onAuthStateChanged(function(u){unsubs.forEach(function(f){f()});unsubs=[];
@@ -215,13 +231,13 @@ function confirming(){return !!(PAYWAIT&&Date.now()-PAYWAIT<12e4&&!(TR.paidUntil
 function trB(){var e=$("#trb");if(!e)return;var now=Date.now(),msg="",bad=0;
 if(isAdm()||!TR.trialEnd){e.style.display="none";return}
 if(confirming())msg="⏳ Confirming your payment… this takes a few seconds";
-else if(TR.paidUntil>now){var d=Math.ceil((TR.paidUntil-now)/864e5);if(d>5){e.style.display="none";return}msg="Payment due "+dfm(TR.paidUntil,1)+" ("+dueIn()+") – tap to pay $"+PRICE}
+else if(TR.paidUntil>now){var d=Math.ceil((TR.paidUntil-now)/864e5);if(d>7){e.style.display="none";return}msg="Payment due "+dfm(TR.paidUntil,1)+" ("+dueIn()+") – tap to pay $"+PRICE}
 else{var t=Math.ceil((TR.trialEnd-now)/864e5);if(t>0)msg="Free trial: "+t+" day"+(t>1?"s":"")+" left – tap to subscribe ($"+PRICE+"/month)";else{msg="Your access has ended. Your data is safe and can be exported – tap to pay $"+PRICE+" and continue";bad=1}}
-e.style.display="block";e.textContent=msg;e.style.background=bad?"#f8d7da":"#fff3cd";e.style.color="#222";e.style.cursor="pointer";e.onclick=openSub}
+e.style.display="block";e.textContent=msg;e.style.background=bad?"#3b1612":"#2a2110";e.style.color=bad?"#ffb4a8":"#f0d78a";e.style.borderBottom="1px solid rgba(212,175,55,.35)";e.style.cursor="pointer";e.onclick=openSub}
 function subStat(){var now=Date.now(),h="";
 if(!TR.trialEnd)h="Loading…";
-else if(TR.paidUntil>now)h='<span class="bd a">Active</span> Paid until <b>'+dfm(TR.paidUntil,1)+'</b><div class="note">Next payment due '+dfm(TR.paidUntil,1)+' ('+dueIn()+')</div>';
-else if(TR.trialEnd>now){var d=Math.ceil((TR.trialEnd-now)/864e5);h='<span class="bd b">Free trial</span> <b>'+d+' day'+(d>1?'s':'')+'</b> left (ends '+dfm(TR.trialEnd)+')'}
+else if(TR.paidUntil>now)h='<span class="bd a">Active</span> Paid until <b>'+dfm(TR.paidUntil,1)+'</b><div class="note">Next payment due '+dfm(TR.paidUntil,1)+' ('+dueIn()+') · in <b class="cd" data-t="'+TR.paidUntil+'"></b></div>';
+else if(TR.trialEnd>now){var d=Math.ceil((TR.trialEnd-now)/864e5);h='<span class="bd b">Free trial</span> <b>'+d+' day'+(d>1?'s':'')+'</b> left (ends '+dfm(TR.trialEnd)+')<div class="note">Trial ends in <b class="cd" data-t="'+TR.trialEnd+'"></b></div>'}
 else h='<span class="bd r">Expired</span> Your access has ended. Your data is safe – you can still view and export it.';
 if(confirming())h+='<div class="warn" style="margin-top:8px">⏳ Confirming your payment… this usually takes a few seconds.</div>';
 return h}
@@ -243,9 +259,9 @@ L.sort(function(p,q){return (q.ac.trialEnd||0)-(p.ac.trialEnd||0)});
 L.forEach(function(r){var u=r.u,ac=r.ac,nm=(u.settings&&u.settings.name)||"–",em=(u.profile&&u.profile.email)||u.uid.slice(0,8),
 bd=r.st==="a"?'<span class="bd a">Paid</span>':r.st==="t"?'<span class="bd b">Trial</span>':'<span class="bd r">Expired</span>',
 en=r.st==="a"?ac.paidUntil:ac.trialEnd,lp=ac.lastPaid?'<br><span class="note">Last paid '+dfm(ac.lastPaid)+'</span>':"",
-bt='<button type="button" class="btn s" onclick="admAct(\''+u.uid+'\',\'pay\')">+1 month</button> <button type="button" class="btn g s" onclick="admAct(\''+u.uid+'\',\'trial\')">+'+TRIAL_DAYS+'d trial</button> <button type="button" class="btn d s" onclick="admAct(\''+u.uid+'\',\'lock\')">Lock</button>';
+bt='<button type="button" class="btn g s" onclick="admAct(\''+u.uid+'\',\'trial\')">+'+TRIAL_DAYS+'d trial</button> <button type="button" class="btn d s" onclick="admAct(\''+u.uid+'\',\'lock\')">Lock</button>';
 rows+='<tr><td class="l"><b>'+esc(nm)+'</b><br><span class="note">'+esc(em)+'</span>'+lp+'</td><td>'+bd+'<br><span class="note">'+dfm(en,r.st==="a")+'</span></td><td class="l" style="white-space:nowrap">'+bt+'</td></tr>'});
-$("#admb2").outerHTML='<div id="admb2"><div class="kpis">'+K(a,"Paid")+K(t,"On trial")+K(x,"Expired")+K("$"+a*PRICE,"Monthly revenue")+'</div><div class="card w" style="margin-top:10px"><table class="sm"><tr><th class="l">Dealership</th><th>Status / ends</th><th class="l">Actions</th></tr>'+(rows||'<tr><td colspan="3" class="l">No dealerships yet.</td></tr>')+'</table></div><p class="note">Payments from Stripe are applied automatically. The buttons above are for manual fixes only.</p><div class="bar" style="margin-top:10px"><button type="button" class="btn g" onclick="admLoad()">↻ Refresh</button><button type="button" class="btn g" onclick="$(\'#dlg\').close()">Close</button></div></div>'}
+$("#admb2").outerHTML='<div id="admb2"><div class="kpis">'+K(a,"Paid")+K(t,"On trial")+K(x,"Expired")+K("$"+a*PRICE,"Monthly revenue")+'</div><div class="card w" style="margin-top:10px"><table class="sm"><tr><th class="l">Dealership</th><th>Status / ends</th><th class="l">Actions</th></tr>'+(rows||'<tr><td colspan="3" class="l">No dealerships yet.</td></tr>')+'</table></div><p class="note">Payments from Stripe are applied automatically. Buttons above only extend a trial or lock an account.</p><div class="bar" style="margin-top:10px"><button type="button" class="btn g" onclick="admLoad()">↻ Refresh</button><button type="button" class="btn g" onclick="$(\'#dlg\').close()">Close</button></div></div>'}
 function admAct(uid,k){var u=ADM.find(function(y){return y.uid===uid}),a=(u&&u.account)||{},now=Date.now(),b=fdb.collection("users").doc(uid).collection("meta"),p,
 msg={pay:"Add one paid month (access until "+dfm(extendPaid(a.paidUntil,now),1)+")?",trial:"Add "+TRIAL_DAYS+" trial days?",lock:"Lock this account now?"}[k];
 if(!msg||!confirm(msg))return;
@@ -719,7 +735,7 @@ var PT={w:["Business Overview Report","Profit and loss, cash balance, stock, rec
 function printRep(){var t=PT[tab]||["Report",""],c=$("#app").cloneNode(true),P={d:"Today",m:"This month",y:"This year",a:"All time"}[PR],
 per=(tab==="w"||tab==="t")?" Period: "+P+".":tab==="d"?" Date: "+ukd(DD)+".":tab==="e"?" Month: "+ek+".":(tab==="s"||tab==="x")?" Year: "+yr+".":"";
 c.querySelectorAll(".bar,.warn,input,select,button").forEach(function(e){e.remove()});
-$("#prt").innerHTML='<div style="display:flex;align-items:center;gap:12px;border-bottom:2px solid #1f3864;padding-bottom:8px;margin-bottom:10px">'+(SET.logo?'<img src="'+ea(SET.logo)+'" style="height:46px">':"")+'<div><div style="font-size:12px;color:#444">'+esc(BN())+(SET.addr?" · "+esc(SET.addr):"")+'</div><h1 style="margin:2px 0;font-size:22px">'+t[0]+'</h1></div></div><p style="margin:0 0 10px;font-size:12px">'+t[1]+per+' Generated '+new Date().toLocaleDateString("en-GB")+'.</p>'+c.innerHTML;window.print()}
+$("#prt").innerHTML='<div style="display:flex;align-items:center;gap:12px;border-bottom:2px solid #b8962e;padding-bottom:8px;margin-bottom:10px">'+(SET.logo?'<img src="'+ea(SET.logo)+'" style="height:46px">':"")+'<div><div style="font-size:12px;color:#444">'+esc(BN())+(SET.addr?" · "+esc(SET.addr):"")+'</div><h1 style="margin:2px 0;font-size:22px">'+t[0]+'</h1></div></div><p style="margin:0 0 10px;font-size:12px">'+t[1]+per+' Generated '+new Date().toLocaleDateString("en-GB")+'.</p>'+c.innerHTML;window.print()}
 $("#dlg").addEventListener("close",function(){$("#frm").onchange=null;rq()});
 function csv(rows,name){var s=rows.map(function(r){return r.map(function(x){x=x==null?"":String(x);return /[",\n]/.test(x)?'"'+x.replace(/"/g,'""')+'"':x}).join(",")}).join("\n"),a=document.createElement("a");
 a.href=URL.createObjectURL(new Blob(["\ufeff"+s],{type:"text/csv"}));a.download=name+"_"+today()+".csv";document.body.appendChild(a);a.click();a.remove()}
@@ -739,6 +755,16 @@ fdb.collection("users").doc(UID).collection("audit").orderBy("t","desc").limit(6
 s.forEach(function(d){var x=d.data();h+='<tr><td class="l">'+esc(new Date(x.t).toLocaleString())+'</td><td class="l">'+esc(x.by)+'</td><td class="l">'+esc(x.act+": "+x.what)+'</td></tr>'});
 if(s.empty)h+='<tr><td colspan="3" class="l">No activity yet.</td></tr>';var q=$("#al");if(q)q.innerHTML=h+'</table>'}).catch(function(){var q=$("#al");if(q)q.textContent="Could not load the log. Make sure your Firestore rules allow users/{uid}/audit."})}
 
+/* ===== final: paywall, live countdown, hardening ===== */
+function fe(x){var m={"auth/invalid-credential":"Wrong email or password.","auth/wrong-password":"Wrong email or password.","auth/user-not-found":"No account with that email.","auth/email-already-in-use":"An account with this email already exists. Sign in instead.","auth/weak-password":"Password must be at least 6 characters.","auth/invalid-email":"Enter a valid email address.","auth/too-many-requests":"Too many attempts. Wait a few minutes and try again.","auth/network-request-failed":"No internet connection.","auth/popup-closed-by-user":"Sign-in window was closed."};return m[x&&x.code]||(x&&x.message)||"Something went wrong."}
+function cdTxt(t){var s=Math.max(0,Math.floor((t-Date.now())/1e3)),d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);return(d?d+"d ":"")+h+"h "+m+"m "+s%60+"s"}
+var _pw=null;
+function pwUpd(){var e=$("#pw");if(!e)return;var on=!!UID&&locked();if(on===_pw)return;_pw=on;e.style.display=on?"flex":"none";document.body.style.overflow=on?"hidden":"";
+if(on){if($("#dlg").open)$("#dlg").close();$("#pwprice").textContent="$"+PRICE;var ok=/^https:\/\/buy\.stripe\.com\//.test(PAY.link||"");var a=$("#pwpay");a.style.display=ok?"block":"none";if(ok){a.href=payUrl();a.textContent="Pay $"+PRICE+" securely with Stripe"}}}
+function pwRefresh(){var b=$("#pwr");b.disabled=true;b.textContent="Checking…";fdb.collection("users").doc(UID).collection("meta").doc("account").get({source:"server"}).then(function(d){if(d.exists){TR=d.data();trB();subUpd()}_pw=null;pwUpd();b.textContent=locked()?"Not received yet – try again in a moment":"Payment received ✓"}).catch(function(){b.textContent="Could not check – no connection"}).then(function(){b.disabled=false;setTimeout(function(){b.textContent="I've paid – refresh status"},4000)})}
+setInterval(function(){document.querySelectorAll(".cd").forEach(function(e){e.textContent=cdTxt(+e.dataset.t)});try{pwUpd()}catch(e){}},1000);
+window.addEventListener("error",function(e){console.error(e.error||e.message)});window.addEventListener("unhandledrejection",function(e){console.error(e.reason)});
+window.addEventListener("offline",function(){var c=$("#cs");if(c)c.textContent="⚠ Offline – changes will sync when you reconnect"});window.addEventListener("online",function(){var c=$("#cs");if(c)c.textContent="☁ Back online – syncing…"});
 init();
 if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});
 </script></body></html>
