@@ -53,7 +53,7 @@ dialog{max-height:92vh;overflow:auto}
 #prt{display:none}
 @media print{body>*:not(#prt){display:none!important}#prt{display:block;background:#fff;color:#000;font:12px Arial;--bg:#fff;--card:#fff;--tx:#000;--mu:#444;--ln:#bbb;--ok:#1b7f3b;--bad:#c0392b;--hd:#1f3864;--hdt:#fff}#prt *{-webkit-print-color-adjust:exact;print-color-adjust:exact}#prt table{min-width:0;font-size:11px}#prt .np{display:none}#prt tr.c{cursor:auto}.card,.kpi{break-inside:avoid}}
 </style></head><body>
-<header style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div style="display:flex;align-items:center;gap:10px"><img id="lg" alt="" style="display:none;height:38px;max-width:90px;object-fit:contain;border-radius:6px;background:#fff"><div><h1 id="bn">Dealer Tracker</h1><p><span id="cs"></span></p></div></div><div style="white-space:nowrap"><button class="btn g" style="color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="printRep()">🖨 Print</button> <button class="btn g" style="color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="openS()">⚙ Settings</button> <button class="btn g" style="color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="firebase.auth().signOut()">Log out</button></div></header>
+<header style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div style="display:flex;align-items:center;gap:10px"><img id="lg" alt="" style="display:none;height:38px;max-width:90px;object-fit:contain;border-radius:6px;background:#fff"><div><h1 id="bn">Dealer Tracker</h1><p><span id="cs"></span></p></div></div><div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end"><button class="btn g" id="admb" style="display:none;color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="openAdm()">🛡 Admin</button> <button class="btn g" style="color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="openSub()">💳 Plan</button> <button class="btn g" style="color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="printRep()">🖨 Print</button> <button class="btn g" style="color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="openS()">⚙ Settings</button> <button class="btn g" style="color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="firebase.auth().signOut()">Log out</button></div></header>
 <nav id="nav"><button data-t="w" class="on">Overview</button><button data-t="v">Vehicles</button><button data-t="o">Sold</button><button data-t="d">Daily</button><button data-t="e">Expenses</button><button data-t="s">Monthly</button><button data-t="c">Custom</button><button data-t="r">Receivables</button><button data-t="n">Rentals</button><button data-t="p">Progress</button><button data-t="t">Staff</button><button data-t="l">Leads</button><button data-t="x">Reports</button></nav><div id="trb" style="display:none;padding:8px 12px;text-align:center;font-weight:700"></div>
 <div id="auth"><div class="card"><h2 style="margin-top:0">Dealer Tracker</h2><div id="an" style="display:none;margin-bottom:8px"><label>Dealership name</label><input id="anm"></div><label>Email</label><input id="ae" type="email" autocomplete="username" style="margin-bottom:8px"><label>Password (min 6 characters)</label><input id="ap" type="password" autocomplete="current-password" style="margin-bottom:12px" onkeydown="if(event.key==='Enter')adone()"><button class="btn" id="ab" onclick="adone()" style="width:100%">Sign in</button><button class="btn g" onclick="gsign()" style="width:100%;margin-top:8px">Continue with Google</button><p class="note" id="amsg" style="color:var(--bad)"></p><p class="note"><a href="#" id="at" onclick="amode(!SU);return false">New dealership? Create an account</a> · <a href="#" onclick="forgot();return false">Forgot password?</a> · <a href="#" onclick="openP();return false">Privacy policy</a></p></div></div>
 <main id="app"></main>
@@ -65,7 +65,7 @@ dialog{max-height:92vh;overflow:auto}
 <script>
 var DEFCATS=["Salary","HPI Checks","Auto Trader","Rent","Electricity","DMS / CRM","Meta / Instagram Ads","Social Media Management","Other"],CATS=DEFCATS.slice();
 var MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-var FIELDS=[["stock","Stock #","text"],["pdate","Purchase date","date"],["reg","Plate / registration","text"],["mot","State inspection / emissions expiry","date"],["source","Purchased from (auction / source)","text"],["year","Year","number"],["make","Make","text"],["model","Model","text"],["miles","Miles","number"],["price","Purchase price (£)","number"],["tax","Sales tax & DMV / title fees paid (£)","number"],["transport","Transport / delivery cost (£)","number"],["recon","Reconditioning cost (£)","number"],["paid","Paid by (cash / floored)","sel"],["floor","Floorplan fees, if floored (£)","number"],["sdate","Sold date","date"],["sprice","Sold price (£)","number"],["cust","Customer name","text"],["phone","Customer phone (for reminders)","text"],["vin","VIN (17 characters – fills year, make, model)","text"],["tstat","Title status (clean / lien / in transit / received)","text"],["sales","Salesperson","text"],["back","Back-end income: finance / warranty (£)","number"],["comm","Commission (£) – blank = default % of profit","number"],["recv","Amount received so far (£) – blank = paid in full","number"],["due","Next payment due date","date"]];
+var FIELDS=[["stock","Stock #","text"],["pdate","Purchase date","date"],["reg","Plate / registration","text"],["source","Purchased from (auction / source)","text"],["year","Year","number"],["make","Make","text"],["model","Model","text"],["miles","Miles","number"],["price","Purchase price (£)","number"],["tax","Sales tax & DMV / title fees paid (£)","number"],["transport","Transport / delivery cost (£)","number"],["recon","Reconditioning cost (£)","number"],["paid","Paid by (cash / floored)","sel"],["floor","Floorplan fees, if floored (£)","number"],["sdate","Sold date","date"],["sprice","Sold price (£)","number"],["cust","Customer name","text"],["phone","Customer phone (for reminders)","text"],["vin","VIN (17 characters – fills year, make, model)","text"],["tstat","Title status (clean / lien / in transit / received)","text"],["sales","Salesperson","text"],["back","Back-end income: finance / warranty (£)","number"],["commp","Commission (% of profit) – blank = default %","number"],["recv","Amount received so far (£) – blank = paid in full","number"],["due","Next payment due date","date"]];
 var $=function(s){return document.querySelector(s)};
 var n=function(v){return +v||0};
 var fmt=function(x){return(x<0?"-":"")+CUR()+(CUR().length>1?" ":"")+Math.abs(Math.round(x)).toLocaleString("en-GB")};
@@ -74,7 +74,7 @@ var cl=function(x){return x<0?"neg":x>0?"pos":""};
 var cost=function(v){return n(v.price)+n(v.tax)+n(v.recon)+n(v.floor)+n(v.transport)}
 var AGE=function(){return n(SET.age)||45};;
 var sold=function(v){return !!(v.sdate&&v.sprice!==""&&v.sprice!=null)};
-var comm=function(v){if(!sold(v))return 0;if(v.comm!==""&&v.comm!=null)return n(v.comm);var g=Math.max(0,n(v.sprice)+n(v.back)-cost(v)),t=stf(v.sales);if(t&&n(t.cf))return n(t.cf);return g*n(t&&n(t.cr)?t.cr:SET.cp)/100};
+var comm=function(v){if(!sold(v))return 0;var g=Math.max(0,n(v.sprice)+n(v.back)-cost(v));if(v.commp!==""&&v.commp!=null)return g*n(v.commp)/100;if(v.comm!==""&&v.comm!=null)return n(v.comm);var t=stf(v.sales);if(t&&n(t.cf))return n(t.cf);return g*n(t&&n(t.cr)?t.cr:SET.cp)/100};
 var profit=function(v){return n(v.sprice)+n(v.back)-cost(v)-comm(v)};
 var bal=function(v){return sold(v)&&v.recv!==""&&v.recv!=null?Math.max(0,n(v.sprice)-n(v.recv)):0};
 var pct=function(v){return n(v.sprice)?(profit(v)/n(v.sprice)*100).toFixed(1)+"%":"–"};
@@ -84,6 +84,14 @@ var D={vehicles:[],exp:[],expenses:{},custom:[]},tab="w",PR="m",DD=today(),editI
 function mig(d){d.vehicles=d.vehicles||[];d.exp=d.exp||[];d.expenses=d.expenses||{};d.custom=d.custom||[];
 d.exp=d.exp.filter(function(x){if(x.note==="Monthly total (from old version)"){var k=x.date.slice(0,7);d.expenses[k]=d.expenses[k]||{};d.expenses[k][x.cat]=d.expenses[k][x.cat]||x.amt;return false}return true});return d}
 function load(){try{var s=localStorage.getItem("rbdata");if(s)D=mig(Object.assign(D,JSON.parse(s)))}catch(e){}}
+/* ===== SUBSCRIPTION SETTINGS – edit these ===== */
+var ADMIN_EMAIL="PASTE-ADMIN-EMAIL-HERE";   // the one login that gets the Admin panel
+var TRIAL_DAYS=7,PRICE=49,BILL_DAY=10,MIN_DAYS=7;   // 7-day free trial, then $49/month due on the 10th of every month. A payment made less than MIN_DAYS before the 10th also covers the next month.
+var PAY={link:"https://buy.stripe.com/28EaEXdsQahucPGf4EdjO03"};   // Stripe Payment Link – must be a ONE-OFF $49 price (see SETUP.md)
+/* =============================================== */
+/* Billing date maths – keep identical to functions/index.js. Due moment = BILL_DAY at 12:00 UTC so it shows as the 10th in every timezone. */
+function nextBill(ms){var d=new Date(ms),y=d.getUTCFullYear(),m=d.getUTCMonth(),t=Date.UTC(y,m,BILL_DAY,12);if(t<=ms)t=Date.UTC(y,m+1,BILL_DAY,12);return t}
+function extendPaid(cur,now){var b=Math.max(now,cur||0),t=nextBill(b);if(t-b<MIN_DAYS*864e5)t=nextBill(t);return t}
 var FC={apiKey:"AIzaSyAuwXHpVMrtBYKVZ_RkoXfxADujZmHzA60",authDomain:"dealer-tracker-91bfa.firebaseapp.com",projectId:"dealer-tracker-91bfa",appId:"1:511046631352:web:b1cd2c3bee815fe9a8994d"};
 var SY={v:{},e:{},m:{},c:{}},UID=null,fdb=null,unsubs=[],SET={},SU=0;
 function cerr(e){SY={v:{},e:{},m:{},c:{}};$("#cs").textContent="Save failed – check connection";console.log(e)}
@@ -105,9 +113,11 @@ o.expenses.del.forEach(function(k){ops.push([base.collection("monthly").doc(k)])
 $("#cs").textContent="Saving…";var ps=[];
 for(var i=0;i<ops.length;i+=400){var b=fdb.batch();ops.slice(i,i+400).forEach(function(x){x[1]?b.set(x[0],x[1]):b.delete(x[0])});ps.push(b.commit())}
 Promise.all(ps).then(function(){$("#cs").textContent="☁ Synced"}).catch(cerr)}
-function save(){if(locked()){alert("Your free trial has ended. You can still view and export your data.");return}sync();render()}
+function save(){if(locked()){openSub();return}sync();render()}
+setInterval(function(){try{trB();subUpd()}catch(e){}},60000);
 function listen(){var base=fdb.collection("users").doc(UID);
-unsubs.push(base.collection("meta").doc("account").onSnapshot(function(d){if(d.exists){TR=d.data();trB()}else if(!d.metadata.fromCache){base.collection("meta").doc("account").set({start:Date.now(),trialEnd:Date.now()+2592e6}).catch(function(){})}}));
+unsubs.push(base.collection("meta").doc("account").onSnapshot(function(d){if(d.exists){TR=d.data();trB();subUpd()}else if(!d.metadata.fromCache){base.collection("meta").doc("account").set({start:Date.now(),trialEnd:Date.now()+TRIAL_DAYS*864e5}).catch(function(){})}},function(er){var c=$("#cs");if(c)c.textContent="⚠ Could not check your subscription: "+er.message}));
+base.collection("meta").doc("profile").set({email:(firebase.auth().currentUser||{}).email||"",seen:Date.now()},{merge:true}).catch(function(){});
 unsubs.push(base.collection("meta").doc("settings").onSnapshot(function(d){SET=d.exists?d.data():{};CATS=SET.cats&&SET.cats.length?SET.cats:DEFCATS.slice();var nm=SET.name||"Dealer Tracker";$("#bn").textContent=nm;document.title=nm;applyTheme();rq()},cerr));
 [["vehicles","v"],["exp","e"],["monthly","m"],["custom","c"]].forEach(function(x){unsubs.push(base.collection(x[0]).onSnapshot(function(s){
 var a=[],m={},k=x[1];SY[k]={};
@@ -130,7 +140,7 @@ function openP(){$("#pdlg").innerHTML=`<h3 style="margin-top:0">Privacy Policy</
 <p><b>3. How we use it.</b> Only to run the app for you: to sign you in, save and sync your data across your devices, create your reports and exports, and send account emails (password reset, email change). We do not sell your data and we do not use it for advertising.</p>
 <p><b>4. Where it is stored.</b> Your data is stored with Google Firebase (Authentication and Cloud Firestore). Some data is also cached in your browser so the app works offline. Each account can only access its own data.</p>
 <p><b>5. Customer information.</b> You are responsible for having the right to store the customer details you enter and for following the laws that apply to your dealership.</p>
-<p><b>6. Sharing.</b> We share data only with service providers needed to run the app (such as Google Firebase), or when the law requires it. PDFs, CSV files and WhatsApp or email messages are shared only when you choose to send them.</p>
+<p><b>6. Sharing.</b> We share data only with service providers needed to run the app (such as Google Firebase), or when the law requires it. Subscription payments are processed by Stripe; we never see or store your card details. PDFs, CSV files and WhatsApp or email messages are shared only when you choose to send them.</p>
 <p><b>7. Your choices.</b> You can edit or delete your records in the app, export your data (CSV or backup), change your email or password in Settings, and ask us to delete your account and data by contacting ${PRIV_EMAIL}.</p>
 <p><b>8. Security.</b> Data is sent over encrypted connections and protected by account login. No system is perfectly secure, so please use a strong password and do not share it.</p>
 <p><b>9. Children.</b> The app is for businesses and is not meant for people under 18.</p>
@@ -153,7 +163,7 @@ function autoS(e){if(e&&e.target&&e.target.type==="file")return;if(!$("#frm").el
 function openS(){LG=SET.logo||"";var u=firebase.auth().currentUser||{},g=(u.providerData||[]).some(function(p){return p.providerId==="google.com"}),th=SET.theme||"auto",
 H=function(t){return'<h4 style="margin:18px 0 6px;border-bottom:1px solid var(--ln);padding-bottom:4px">'+t+'</h4>'};
 $("#frm").oninput=null;
-$("#frm").innerHTML='<h3 style="margin-top:0">Settings <span id="asv" class="pos" style="font-size:12px;font-weight:400"></span></h3><p class="note">Changes save automatically.</p>'+H("Dealership profile")+'<label>Dealership name</label><input name="nm" value="'+ea(SET.name)+'"><label style="margin-top:8px">Address / phone (shown on reports)</label><input name="addr" value="'+ea(SET.addr)+'"><label style="margin-top:8px">Logo</label><div class="bar"><img id="lgp" alt="" style="height:44px;max-width:120px;object-fit:contain;display:'+(LG?"block":"none")+'" src="'+ea(LG)+'"><input type="file" id="lgf" accept="image/*" style="width:auto;max-width:200px"><button type="button" class="btn g" onclick="LG=\'\';$(\'#lgp\').style.display=\'none\';autoS()">Remove logo</button></div>'
+$("#frm").innerHTML='<h3 style="margin-top:0">Settings <span id="asv" class="pos" style="font-size:12px;font-weight:400"></span></h3><p class="note">Changes save automatically.</p>'+H("Dealership profile")+'<label>Dealership name</label><input name="nm" value="'+ea(SET.name)+'"><label style="margin-top:8px">Account owner name (printed on the Finance PDF)</label><input name="own" value="'+ea(SET.owner)+'"><label style="margin-top:8px">Address / phone (shown on reports)</label><input name="addr" value="'+ea(SET.addr)+'"><label style="margin-top:8px">Logo</label><div class="bar"><img id="lgp" alt="" style="height:44px;max-width:120px;object-fit:contain;display:'+(LG?"block":"none")+'" src="'+ea(LG)+'"><input type="file" id="lgf" accept="image/*" style="width:auto;max-width:200px"><button type="button" class="btn g" onclick="LG=\'\';$(\'#lgp\').style.display=\'none\';autoS()">Remove logo</button></div>'
 +H("Appearance &amp; currency")+'<div class="g2"><div><label>Mode</label><select name="th"><option value="auto"'+(th==="auto"?" selected":"")+'>Automatic (device)</option><option value="light"'+(th==="light"?" selected":"")+'>Light</option><option value="dark"'+(th==="dark"?" selected":"")+'>Dark</option></select></div><div><label>Accent colour (text adjusts automatically)</label><input name="ac" type="color" value="'+ea(SET.ac||"#1f3864")+'" style="height:38px;padding:2px"></div><div><label>Currency</label><select name="cur">'+CURS.map(function(c){return'<option'+(c===CUR()?" selected":"")+'>'+c+'</option>'}).join("")+'</select></div></div>'
 +H("Account")+'<p class="note">Signed in as <b>'+esc(u.email)+'</b></p><label>New email address</label><input name="ne" type="email" placeholder="new@email.com"><div class="bar" style="margin-top:8px"><button type="button" class="btn g" onclick="chEmail()">Change email</button><button type="button" class="btn g" onclick="linkG()">'+(g?"✓ Google linked":"Link Google account")+'</button><button type="button" class="btn g" onclick="forgotS()">Reset password</button></div><p class="note" id="acm"></p>'
 +H("Business rules")+'<div class="g2"><div><label>Aging alert after (days)</label><input name="age" type="number" value="'+ea(SET.age||45)+'"></div><div><label>Default commission (% of profit)</label><input name="cp" type="number" step="any" value="'+ea(SET.cp||0)+'"></div><div><label>Opening cash / bank balance (£)</label><input name="ob" type="number" step="any" value="'+ea(SET.ob||0)+'"></div></div><p class="note">Staff and their commission rates are in the Staff tab.</p><label>Expense categories (one per line)</label><textarea name="cats" rows="7">'+esc(CATS.join("\n"))+'</textarea><p class="note">Do not rename a category that already has entries.</p>'
@@ -162,7 +172,7 @@ $("#frm").onchange=autoS;
 $("#lgf").onchange=function(){var f=this.files[0];if(!f)return;var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var k=Math.min(1,240/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);LG=c.toDataURL("image/png");if(LG.length>400000)LG=c.toDataURL("image/jpeg",.8);$("#lgp").src=LG;$("#lgp").style.display="block";autoS()};im.src=r.result};r.readAsDataURL(f)};
 $("#dlg").showModal()}
 function saveS(q){var e=$("#frm").elements;if(!e.cats)return;var c=e.cats.value.split("\n").map(function(s){return s.trim()}).filter(Boolean);if(!c.length){if(!q)alert("Add at least one category.");return}
-fdb.collection("users").doc(UID).collection("meta").doc("settings").set({name:e.nm.value.trim()||"Dealer Tracker",addr:e.addr.value.trim(),logo:LG,theme:e.th.value,ac:e.ac.value,cur:e.cur.value,age:n(e.age.value)||45,cp:n(e.cp.value),ob:n(e.ob.value),cats:c},{merge:true}).then(function(){var m=$("#asv");if(m)m.textContent="✓ Saved";if(!q)$("#dlg").close()}).catch(cerr)}
+fdb.collection("users").doc(UID).collection("meta").doc("settings").set({name:e.nm.value.trim()||"Dealer Tracker",owner:e.own.value.trim(),addr:e.addr.value.trim(),logo:LG,theme:e.th.value,ac:e.ac.value,cur:e.cur.value,age:n(e.age.value)||45,cp:n(e.cp.value),ob:n(e.ob.value),cats:c},{merge:true}).then(function(){var m=$("#asv");if(m)m.textContent="✓ Saved";if(!q)$("#dlg").close()}).catch(cerr)}
 function acm(t,bad){var e=$("#acm");if(e){e.textContent=t;e.style.color=bad?"var(--bad)":"var(--ok)"}}
 function reauth(){var u=firebase.auth().currentUser;if(u.providerData.some(function(p){return p.providerId==="password"})){var p=prompt("For security, enter your current password:");if(!p)return Promise.reject({message:"Cancelled."});return u.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(u.email,p))}return u.reauthenticateWithPopup(new firebase.auth.GoogleAuthProvider())}
 function chEmail(){var u=firebase.auth().currentUser,e=$("#frm").elements.ne.value.trim();if(!e){acm("Type the new email first.",1);return}
@@ -174,8 +184,8 @@ function gsign(){var m=$("#amsg");m.textContent="";firebase.auth().signInWithPop
 function init(){if(!window.firebase||FC.apiKey.indexOf("PASTE")===0){document.body.className="out";$("#amsg").textContent="Firebase is not set up yet. Paste your Firebase config into index.html.";return}
 firebase.initializeApp(FC);fdb=firebase.firestore();try{fdb.enablePersistence({synchronizeTabs:true}).catch(function(){})}catch(e){}
 firebase.auth().onAuthStateChanged(function(u){unsubs.forEach(function(f){f()});unsubs=[];
-if(!u){UID=null;D={vehicles:[],exp:[],expenses:{},custom:[]};SY={v:{},e:{},m:{},c:{}};CATS=DEFCATS.slice();SET={};TR={};trB();applyTheme();document.body.className="out";return}
-UID=u.uid;showLd();document.body.className="in";$("#cs").textContent="Loading…";listen();render()})}
+if(!u){UID=null;D={vehicles:[],exp:[],expenses:{},custom:[]};SY={v:{},e:{},m:{},c:{}};CATS=DEFCATS.slice();SET={};TR={};trB();var ab0=$("#admb");if(ab0)ab0.style.display="none";applyTheme();document.body.className="out";return}
+UID=u.uid;var ab1=$("#admb");if(ab1)ab1.style.display=isAdm()?"":"none";showLd();document.body.className="in";$("#cs").textContent="Loading…";listen();render()})}
 
 var ea=function(s){return esc(s).replace(/"/g,"&quot;")},cid=null;
 function custom(){var L=D.custom.filter(function(x){return x.kind!=="lead"}).sort(function(a,b){return(b.date||"")<(a.date||"")?-1:(b.date||"")>(a.date||"")?1:0}),t=L.reduce(function(s,x){return s+n(x.amt)},0),
@@ -193,8 +203,56 @@ if(cid){o.id=cid;var i=D.custom.findIndex(function(y){return y.id===cid});D.cust
 $("#dlg").close();save()}
 function delC(){if(confirm("Delete this item?")){D.custom=D.custom.filter(function(x){return x.id!==cid});$("#dlg").close();save()}}
 var TR={};
-function locked(){return TR.trialEnd&&TR.trialEnd<Date.now()&&!(TR.paidUntil>Date.now())}
-function trB(){var e=$("#trb");if(!e)return;if(!TR.trialEnd||TR.paidUntil>Date.now()){e.style.display="none";return}var d=Math.ceil((TR.trialEnd-Date.now())/864e5);e.style.display="block";e.textContent=d>0?"Free trial: "+d+" day"+(d>1?"s":"")+" left":"Trial ended. Your data is safe and can be exported. Contact "+PRIV_EMAIL+" to subscribe.";e.style.background=d>0?"#fff3cd":"#f8d7da";e.style.color="#222"}
+var ADM=null;
+function isAdm(){var u=window.firebase&&firebase.apps.length&&firebase.auth().currentUser;return !!(u&&u.email&&ADMIN_EMAIL.indexOf("PASTE")!==0&&u.email.toLowerCase()===ADMIN_EMAIL.toLowerCase())}
+function locked(){if(isAdm())return false;return !!(TR.trialEnd&&TR.trialEnd<Date.now()&&!(TR.paidUntil>Date.now()))}
+function dfm(ms,u){return ms?new Date(ms).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:u?"UTC":undefined}):"–"}
+var PAYWAIT=0;
+try{if(/[?&]paid=1(&|$)/.test(location.search)){PAYWAIT=Date.now();history.replaceState(null,"",location.pathname+location.hash)}}catch(e){}
+function ord(n){var t=n%100;if(t>=11&&t<=13)return"th";return({1:"st",2:"nd",3:"rd"})[n%10]||"th"}
+function dueIn(){var d=Math.ceil((TR.paidUntil-Date.now())/864e5);return d<=0?"today":"in "+d+" day"+(d>1?"s":"")}
+function confirming(){return !!(PAYWAIT&&Date.now()-PAYWAIT<12e4&&!(TR.paidUntil>Date.now()))}
+function trB(){var e=$("#trb");if(!e)return;var now=Date.now(),msg="",bad=0;
+if(isAdm()||!TR.trialEnd){e.style.display="none";return}
+if(confirming())msg="⏳ Confirming your payment… this takes a few seconds";
+else if(TR.paidUntil>now){var d=Math.ceil((TR.paidUntil-now)/864e5);if(d>5){e.style.display="none";return}msg="Payment due "+dfm(TR.paidUntil,1)+" ("+dueIn()+") – tap to pay $"+PRICE}
+else{var t=Math.ceil((TR.trialEnd-now)/864e5);if(t>0)msg="Free trial: "+t+" day"+(t>1?"s":"")+" left – tap to subscribe ($"+PRICE+"/month)";else{msg="Your access has ended. Your data is safe and can be exported – tap to pay $"+PRICE+" and continue";bad=1}}
+e.style.display="block";e.textContent=msg;e.style.background=bad?"#f8d7da":"#fff3cd";e.style.color="#222";e.style.cursor="pointer";e.onclick=openSub}
+function subStat(){var now=Date.now(),h="";
+if(!TR.trialEnd)h="Loading…";
+else if(TR.paidUntil>now)h='<span class="bd a">Active</span> Paid until <b>'+dfm(TR.paidUntil,1)+'</b><div class="note">Next payment due '+dfm(TR.paidUntil,1)+' ('+dueIn()+')</div>';
+else if(TR.trialEnd>now){var d=Math.ceil((TR.trialEnd-now)/864e5);h='<span class="bd b">Free trial</span> <b>'+d+' day'+(d>1?'s':'')+'</b> left (ends '+dfm(TR.trialEnd)+')'}
+else h='<span class="bd r">Expired</span> Your access has ended. Your data is safe – you can still view and export it.';
+if(confirming())h+='<div class="warn" style="margin-top:8px">⏳ Confirming your payment… this usually takes a few seconds.</div>';
+return h}
+function subUpd(){if(TR.paidUntil>Date.now())PAYWAIT=0;var e=$("#subst");if(e)e.innerHTML=subStat()}
+function payUrl(){var u=PAY.link,em=(window.firebase&&firebase.apps.length&&firebase.auth().currentUser||{}).email||"";return u+(u.indexOf("?")<0?"?":"&")+"client_reference_id="+encodeURIComponent(UID)+(em?"&prefilled_email="+encodeURIComponent(em):"")}
+function openSub(){if(isAdm()){openAdm();return}if($("#dlg").open)$("#dlg").close();
+var ok=!!UID&&/^https:\/\/buy\.stripe\.com\//.test(PAY.link||""),
+h='<h3 style="margin-top:0">💳 Subscription</h3><div id="subst" style="font-size:14px">'+subStat()+'</div>'
++'<div class="card" style="background:var(--bg);margin-top:10px"><b style="font-size:24px">$'+PRICE+'</b> <span class="note">per month · full access for your whole team</span><div class="note">Payment is due on the '+BILL_DAY+ord(BILL_DAY)+' of every month. Your '+TRIAL_DAYS+'-day free trial needs no card.</div></div>';
+if(ok)h+='<a class="btn" style="display:inline-block;text-decoration:none;margin:8px 0" href="'+ea(payUrl())+'" target="_blank" rel="noopener">Pay $'+PRICE+' securely with Stripe</a><p class="note">Secure checkout by Stripe. Your access switches on automatically as soon as the payment goes through.</p>';
+else h+='<p class="note">Online payment is not available right now. Please contact '+esc(PRIV_EMAIL)+'.</p>';
+h+='<div class="bar" style="margin-top:12px"><button type="button" class="btn g" onclick="$(\'#dlg\').close()">Close</button></div>';
+$("#frm").oninput=null;$("#frm").innerHTML=h;$("#dlg").showModal()}
+function openAdm(){if(!isAdm())return;if($("#dlg").open)$("#dlg").close();$("#frm").oninput=null;$("#frm").innerHTML='<h3 style="margin-top:0">🛡 Admin – all dealerships</h3><div id="admb2" class="note">Loading…</div>';$("#dlg").showModal();admLoad()}
+function admLoad(){fdb.collectionGroup("meta").get().then(function(q){var U={};q.forEach(function(d){var uid=d.ref.parent.parent.id;(U[uid]=U[uid]||{uid:uid})[d.id]=d.data()});ADM=Object.keys(U).map(function(k){return U[k]}).filter(function(u){return u.account});admDraw()}).catch(function(x){var m=$("#admb2");if(m)m.innerHTML="Could not load: "+esc(x.message)+"<br>Check the Firestore rules and that ADMIN_EMAIL matches your verified login email."})}
+function admDraw(){var now=Date.now(),a=0,t=0,x=0,rows="";
+var L=ADM.map(function(u){var ac=u.account||{},st=ac.paidUntil>now?"a":ac.trialEnd>now?"t":"x";if(st==="a")a++;else if(st==="t")t++;else x++;return{u:u,ac:ac,st:st}});
+L.sort(function(p,q){return (q.ac.trialEnd||0)-(p.ac.trialEnd||0)});
+L.forEach(function(r){var u=r.u,ac=r.ac,nm=(u.settings&&u.settings.name)||"–",em=(u.profile&&u.profile.email)||u.uid.slice(0,8),
+bd=r.st==="a"?'<span class="bd a">Paid</span>':r.st==="t"?'<span class="bd b">Trial</span>':'<span class="bd r">Expired</span>',
+en=r.st==="a"?ac.paidUntil:ac.trialEnd,lp=ac.lastPaid?'<br><span class="note">Last paid '+dfm(ac.lastPaid)+'</span>':"",
+bt='<button type="button" class="btn s" onclick="admAct(\''+u.uid+'\',\'pay\')">+1 month</button> <button type="button" class="btn g s" onclick="admAct(\''+u.uid+'\',\'trial\')">+'+TRIAL_DAYS+'d trial</button> <button type="button" class="btn d s" onclick="admAct(\''+u.uid+'\',\'lock\')">Lock</button>';
+rows+='<tr><td class="l"><b>'+esc(nm)+'</b><br><span class="note">'+esc(em)+'</span>'+lp+'</td><td>'+bd+'<br><span class="note">'+dfm(en,r.st==="a")+'</span></td><td class="l" style="white-space:nowrap">'+bt+'</td></tr>'});
+$("#admb2").outerHTML='<div id="admb2"><div class="kpis">'+K(a,"Paid")+K(t,"On trial")+K(x,"Expired")+K("$"+a*PRICE,"Monthly revenue")+'</div><div class="card w" style="margin-top:10px"><table class="sm"><tr><th class="l">Dealership</th><th>Status / ends</th><th class="l">Actions</th></tr>'+(rows||'<tr><td colspan="3" class="l">No dealerships yet.</td></tr>')+'</table></div><p class="note">Payments from Stripe are applied automatically. The buttons above are for manual fixes only.</p><div class="bar" style="margin-top:10px"><button type="button" class="btn g" onclick="admLoad()">↻ Refresh</button><button type="button" class="btn g" onclick="$(\'#dlg\').close()">Close</button></div></div>'}
+function admAct(uid,k){var u=ADM.find(function(y){return y.uid===uid}),a=(u&&u.account)||{},now=Date.now(),b=fdb.collection("users").doc(uid).collection("meta"),p,
+msg={pay:"Add one paid month (access until "+dfm(extendPaid(a.paidUntil,now),1)+")?",trial:"Add "+TRIAL_DAYS+" trial days?",lock:"Lock this account now?"}[k];
+if(!msg||!confirm(msg))return;
+if(k==="pay")p=b.doc("account").set({paidUntil:extendPaid(a.paidUntil,now),lastPaid:now,lastSession:"admin"},{merge:true});
+else if(k==="trial")p=b.doc("account").set({trialEnd:Math.max(now,a.trialEnd||0)+TRIAL_DAYS*864e5},{merge:true});
+else p=b.doc("account").set({trialEnd:now-1,paidUntil:0},{merge:true});
+p.then(admLoad).catch(function(x){alert(x.message)})}
 function us(p){p=(p||"").replace(/\D/g,"");if(p.length===10)p="1"+p;return p}
 document.addEventListener("change",function(e){var t=e.target;if(t.name!=="vin")return;var v=t.value.trim().toUpperCase();if(v.length!==17)return;
 fetch("https://vpic.nhtsa.dot.gov/api/vehicles/decodevinvaluesextended/"+v+"?format=json").then(function(r){return r.json()}).then(function(j){var r=(j.Results||[])[0]||{},f=$("#frm").elements;
@@ -262,20 +320,20 @@ return h+"</table></div>"}
 function openF(id,ms,dd){editId=id;var v=Object.assign({paid:"Cash",pdate:(ms?today():(dd||today()))},D.vehicles.find(function(x){return x.id===id})||{});
 if(ms&&!v.sdate)v.sdate=dd||today();
 var h='<h3 style="margin-top:0">'+(id?"Edit vehicle":ms?"Add sold vehicle":"Add vehicle")+'</h3><div class="g2">';
-FIELDS.forEach(function(f){h+='<div><label>'+f[1]+'</label>'+(f[2]==="sel"?'<select name="'+f[0]+'"><option>Cash</option><option'+(v.paid==="Floored"?" selected":"")+'>Floored</option></select>':'<input name="'+f[0]+'" type="'+f[2]+'" step="any" value="'+esc(v[f[0]])+'">')+'</div>'});
-h+='</div><div id="pl"></div><div class="bar"><button type="button" class="btn" onclick="saveF()">Save</button><button type="button" class="btn g" onclick="$(\'#dlg\').close()">Cancel</button>'+(id?'<button type="button" class="btn d" onclick="delV()">Delete</button>':"")+'</div>';
+var SF="sdate,sprice,cust,phone,sales,back,commp,recv,due".split(","),hs="",isS=!!(ms||v.sdate);FIELDS.forEach(function(f){var b='<div><label>'+f[1]+'</label>'+(f[2]==="sel"?'<select name="'+f[0]+'"><option>Cash</option><option'+(v.paid==="Floored"?" selected":"")+'>Floored</option></select>':'<input name="'+f[0]+'" type="'+f[2]+'" step="any" value="'+esc(v[f[0]])+'">')+'</div>';if(SF.indexOf(f[0])>=0)hs+=b;else h+=b});
+h+='</div><label style="display:flex;gap:8px;align-items:center;margin:12px 0 6px"><input type="checkbox" id="isold" style="width:auto"'+(isS?" checked":"")+' onchange="$(\'#sf\').style.display=this.checked?\'\':\'none\';pv()"> <b>This vehicle is sold</b> (customer &amp; sale details)</label><div id="sf" class="g2" style="display:'+(isS?"":"none")+'">'+hs+'</div><div id="pl"></div><div class="bar"><button type="button" class="btn" onclick="saveF()">Save</button><button type="button" class="btn g" onclick="$(\'#dlg\').close()">Cancel</button>'+(id?'<button type="button" class="btn d" onclick="delV()">Delete</button>':"")+'</div>';
 $("#frm").innerHTML=h;var sl=$("#frm").elements.sales;sl.setAttribute("list","stl");sl.insertAdjacentHTML("afterend",'<datalist id="stl">'+(SET.staff||[]).map(function(x){return'<option value="'+ea(x.name)+'">'}).join("")+'</datalist>');$("#frm").oninput=pv;pv();$("#dlg").showModal();if(ms)$("#frm").elements.sprice.focus()}
 function pv(){var e=$("#frm").elements,o={};FIELDS.forEach(function(f){o[f[0]]=e[f[0]].value});
 var c=cost(o),h='Total cost: <b>'+fmt(c)+'</b>';
 if(o.sprice!==""){var p=n(o.sprice)+n(o.back)-c-comm(o);h+=' &nbsp;·&nbsp; Sold: <b>'+fmt(n(o.sprice))+'</b> &nbsp;·&nbsp; <span class="'+cl(p)+'">'+(p<0?"LOSS ":"PROFIT ")+fmt(Math.abs(p))+' ('+(n(o.sprice)?(p/n(o.sprice)*100).toFixed(1):0)+'%)</span>'}
 else h+=' &nbsp;·&nbsp; <span style="color:var(--mu)">Enter a sold price to see profit / loss</span>';
 $("#pl").innerHTML=h}
-function saveF(){var o={};FIELDS.forEach(function(f){o[f[0]]=$("#frm").elements[f[0]].value});
+function saveF(){var o={};FIELDS.forEach(function(f){o[f[0]]=$("#frm").elements[f[0]].value});if(!$("#isold").checked)"sdate,sprice,cust,phone,sales,back,commp,recv,due".split(",").forEach(function(k){o[k]=""});else if(!o.sprice||!o.sdate){alert("Enter the sold date and sold price, or untick \"This vehicle is sold\".");return}
 if(!o.make&&!o.model){alert("Enter at least the make or model.");return}
 if(o.sdate&&o.pdate&&o.sdate<o.pdate){alert("Sold date is before the purchase date.");return}
 if(o.stock&&D.vehicles.some(function(x){return x.id!==editId&&x.stock===o.stock})&&!confirm("Stock # "+o.stock+" already exists. Save anyway?"))return;
 logA(editId?"Edited vehicle":"Added vehicle",[o.stock,o.year,o.make,o.model].join(" ")+(o.sprice?" · sold "+fmt(n(o.sprice)):""));
-if(editId){var i=D.vehicles.findIndex(function(x){return x.id===editId});o.id=editId;D.vehicles[i]=o}else{o.id="v"+Date.now();D.vehicles.push(o)}
+if(editId){var i=D.vehicles.findIndex(function(x){return x.id===editId});o.id=editId;D.vehicles[i]=Object.assign({},D.vehicles[i],o)}else{o.id="v"+Date.now();D.vehicles.push(o)}
 $("#dlg").close();save()}
 function delV(){if(confirm("Delete this vehicle?")){var dv=D.vehicles.find(function(x){return x.id===editId});if(dv)logA("Deleted vehicle",pn(dv)+" "+(dv.stock||""));D.vehicles=D.vehicles.filter(function(x){return x.id!==editId});$("#dlg").close();save()}}
 
@@ -373,7 +431,7 @@ var tdy=today(),curM=tdy.slice(0,7),curY=tdy.slice(0,4),PK=[curM,curY,""],ps=PK.
 np();
 if(scope==="exp")expBody();else allBody();
 function allBody(){
-rect(0,0,PW,92,C.ac);txt(MG,36,BN()+"",21,1,C.wh);txt(MG,54,"Dealer Tracker - Business Report",11,0,"#cfd9ee");
+rect(0,0,PW,92,C.ac);txt(MG,36,BN()+"",21,1,C.wh);txt(MG,54,"Finance - "+OWN(),11,0,"#cfd9ee");
 txt(MG,70,SET.addr||"",8.5,0,"#cfd9ee");txt(MG,83,"Generated "+gen,8.5,0,"#cfd9ee");
 txt(PW-MG,34,"ALL-TIME NET PROFIT / LOSS",7.5,1,"#cfd9ee","r");txt(PW-MG,62,fmt(A.net),22,1,A.net<0?"#ffb3a8":"#8ff0b0","r");
 y=100;
@@ -472,7 +530,7 @@ var u=new Uint8Array(out.length);for(i=0;i<out.length;i++)u[i]=out.charCodeAt(i)
 
 function exp(share,scope){scope=scope==="exp"?"exp":"all";try{localStorage.setItem("rbbk",today())}catch(e){}
 var old=document.getElementById("shm");if(old)old.remove();
-var stamp=today(),pname=(scope==="exp"?"RajBros_Expenses_"+ek:"RajBros_Report_"+stamp)+".pdf",jname="RajBros_backup_"+stamp+".json",pdf=null,pfile=null,perr="";
+var stamp=today(),pname=(scope==="exp"?"Finance_Expenses_"+OWN().replace(/[^\w]+/g,"_")+"_"+ek:"Finance_"+OWN().replace(/[^\w]+/g,"_")+"_"+stamp)+".pdf",jname="RajBros_backup_"+stamp+".json",pdf=null,pfile=null,perr="";
 try{pdf=buildPDF(scope)}catch(e){perr="Could not build the PDF report ("+(e&&e.message||e)+")."}
 var pblob=pdf?new Blob([pdf],{type:"application/pdf"}):null;
 try{if(pblob)pfile=new File([pblob],pname,{type:"application/pdf"})}catch(e){}
@@ -503,12 +561,11 @@ else if(confirm("Replace ALL current data with this backup?")){D={vehicles:d.veh
 document.querySelectorAll("nav button").forEach(function(b){b.onclick=function(){tab=b.dataset.t;render();window.scrollTo(0,0)}});
 /* ===== Added features ===== */
 function BN(){return SET.name||"Dealer Tracker"}
+function OWN(){return SET.owner||SET.name||"Account owner"}
 function pn(v){return [v.year,v.make,v.model].filter(Boolean).join(" ")}
 function logA(act,what){try{if(fdb&&UID)fdb.collection("users").doc(UID).collection("audit").add({t:Date.now(),by:(firebase.auth().currentUser||{}).email||"",act:act,what:what})}catch(e){}}
 function alerts(){var h="",a=D.vehicles.filter(function(v){return !sold(v)&&days(v)>AGE()}),od=D.vehicles.filter(function(v){return bal(v)>0&&v.due&&v.due<today()});
 if(a.length)h+='<div class="warn">⏳ <b>'+a.length+' car'+(a.length>1?'s':'')+'</b> in stock over '+AGE()+' days ('+fmt(a.reduce(function(s,v){return s+cost(v)},0))+' tied up): '+esc(a.slice(0,6).map(function(v){return v.stock||pn(v)}).join(", "))+(a.length>6?"…":"")+'</div>';
-var mo=D.vehicles.filter(function(v){return !sold(v)&&v.mot&&v.mot<new Date(Date.now()+2592e6).toISOString().slice(0,10)});
-if(mo.length)h+='<div class="warn">🔧 <b>'+mo.length+' car'+(mo.length>1?"s":"")+'</b> with inspection expired or due within 30 days: '+esc(mo.slice(0,6).map(function(v){return(v.reg||v.stock||pn(v)).toUpperCase()}).join(", "))+'</div>';
 if(od.length)h+='<div class="warn">💸 <b>'+od.length+' overdue payment'+(od.length>1?'s':'')+'</b> – '+fmt(od.reduce(function(s,v){return s+bal(v)},0))+' owed. Open the Receivables tab.</div>';return h+rtAlerts()}
 function pbar(){var h='<div class="bar">';[["d","Today"],["m","This month"],["y","This year"],["a","All time"]].forEach(function(x){h+='<button class="btn g'+(PR===x[0]?" on":"")+'" onclick="PR=\''+x[0]+'\';render()">'+x[1]+'</button>'});return h+'</div>'}
 function vById(id){return D.vehicles.find(function(x){return x.id===id})}
