@@ -2,6 +2,7 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Dealer Tracker</title>
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#1f3864"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="mobile-web-app-capable" content="yes">
 <style>
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f5f6f8;--card:#fff;--tx:#14213d;--mu:#667085;--ac:#1f3864;--ln:#e0e3e8;--ok:#1b7f3b;--bad:#c0392b;--hd:#1f3864;--hdt:#fff}
 @media(prefers-color-scheme:dark){:root{--bg:#10141c;--card:#1a2030;--tx:#e8ecf4;--mu:#9aa5b8;--ac:#7fa6e8;--ln:#2d3548;--ok:#5cc07a;--bad:#ff7b6b;--hd:#2a3a60;color-scheme:dark}}
@@ -53,7 +54,7 @@ dialog{max-height:92vh;overflow:auto}
 @media print{body>*:not(#prt){display:none!important}#prt{display:block;background:#fff;color:#000;font:12px Arial;--bg:#fff;--card:#fff;--tx:#000;--mu:#444;--ln:#bbb;--ok:#1b7f3b;--bad:#c0392b;--hd:#1f3864;--hdt:#fff}#prt *{-webkit-print-color-adjust:exact;print-color-adjust:exact}#prt table{min-width:0;font-size:11px}#prt .np{display:none}#prt tr.c{cursor:auto}.card,.kpi{break-inside:avoid}}
 </style></head><body>
 <header style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div style="display:flex;align-items:center;gap:10px"><img id="lg" alt="" style="display:none;height:38px;max-width:90px;object-fit:contain;border-radius:6px;background:#fff"><div><h1 id="bn">Dealer Tracker</h1><p><span id="cs"></span></p></div></div><div style="white-space:nowrap"><button class="btn g" style="color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="printRep()">🖨 Print</button> <button class="btn g" style="color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="openS()">⚙ Settings</button> <button class="btn g" style="color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="firebase.auth().signOut()">Log out</button></div></header>
-<nav id="nav"><button data-t="w" class="on">Overview</button><button data-t="v">Vehicles</button><button data-t="o">Sold</button><button data-t="d">Daily</button><button data-t="e">Expenses</button><button data-t="s">Monthly</button><button data-t="c">Custom</button><button data-t="r">Receivables</button><button data-t="n">Rentals</button><button data-t="p">Progress</button><button data-t="t">Staff</button><button data-t="x">Reports</button></nav>
+<nav id="nav"><button data-t="w" class="on">Overview</button><button data-t="v">Vehicles</button><button data-t="o">Sold</button><button data-t="d">Daily</button><button data-t="e">Expenses</button><button data-t="s">Monthly</button><button data-t="c">Custom</button><button data-t="r">Receivables</button><button data-t="n">Rentals</button><button data-t="p">Progress</button><button data-t="t">Staff</button><button data-t="l">Leads</button><button data-t="x">Reports</button></nav><div id="trb" style="display:none;padding:8px 12px;text-align:center;font-weight:700"></div>
 <div id="auth"><div class="card"><h2 style="margin-top:0">Dealer Tracker</h2><div id="an" style="display:none;margin-bottom:8px"><label>Dealership name</label><input id="anm"></div><label>Email</label><input id="ae" type="email" autocomplete="username" style="margin-bottom:8px"><label>Password (min 6 characters)</label><input id="ap" type="password" autocomplete="current-password" style="margin-bottom:12px" onkeydown="if(event.key==='Enter')adone()"><button class="btn" id="ab" onclick="adone()" style="width:100%">Sign in</button><button class="btn g" onclick="gsign()" style="width:100%;margin-top:8px">Continue with Google</button><p class="note" id="amsg" style="color:var(--bad)"></p><p class="note"><a href="#" id="at" onclick="amode(!SU);return false">New dealership? Create an account</a> · <a href="#" onclick="forgot();return false">Forgot password?</a> · <a href="#" onclick="openP();return false">Privacy policy</a></p></div></div>
 <main id="app"></main>
 <div id="ld"><span class="spin"></span><div>Loading your data…</div></div><div id="prt"></div>
@@ -64,7 +65,7 @@ dialog{max-height:92vh;overflow:auto}
 <script>
 var DEFCATS=["Salary","HPI Checks","Auto Trader","Rent","Electricity","DMS / CRM","Meta / Instagram Ads","Social Media Management","Other"],CATS=DEFCATS.slice();
 var MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-var FIELDS=[["stock","Stock #","text"],["pdate","Purchase date","date"],["reg","Registration (number plate)","text"],["mot","MOT expiry date","date"],["source","Purchased from (auction / source)","text"],["year","Year","number"],["make","Make","text"],["model","Model","text"],["miles","Miles","number"],["price","Purchase price (£)","number"],["tax","VAT & DVLA fees paid (£)","number"],["transport","Transport / delivery cost (£)","number"],["recon","Reconditioning cost (£)","number"],["paid","Paid by (cash / floored)","sel"],["floor","Floorplan fees, if floored (£)","number"],["sdate","Sold date","date"],["sprice","Sold price (£)","number"],["cust","Customer name","text"],["phone","Customer phone (for reminders)","text"],["vin","VIN","text"],["sales","Salesperson","text"],["back","Back-end income: finance / warranty (£)","number"],["comm","Commission (£) – blank = default % of profit","number"],["recv","Amount received so far (£) – blank = paid in full","number"],["due","Next payment due date","date"]];
+var FIELDS=[["stock","Stock #","text"],["pdate","Purchase date","date"],["reg","Plate / registration","text"],["mot","State inspection / emissions expiry","date"],["source","Purchased from (auction / source)","text"],["year","Year","number"],["make","Make","text"],["model","Model","text"],["miles","Miles","number"],["price","Purchase price (£)","number"],["tax","Sales tax & DMV / title fees paid (£)","number"],["transport","Transport / delivery cost (£)","number"],["recon","Reconditioning cost (£)","number"],["paid","Paid by (cash / floored)","sel"],["floor","Floorplan fees, if floored (£)","number"],["sdate","Sold date","date"],["sprice","Sold price (£)","number"],["cust","Customer name","text"],["phone","Customer phone (for reminders)","text"],["vin","VIN (17 characters – fills year, make, model)","text"],["tstat","Title status (clean / lien / in transit / received)","text"],["sales","Salesperson","text"],["back","Back-end income: finance / warranty (£)","number"],["comm","Commission (£) – blank = default % of profit","number"],["recv","Amount received so far (£) – blank = paid in full","number"],["due","Next payment due date","date"]];
 var $=function(s){return document.querySelector(s)};
 var n=function(v){return +v||0};
 var fmt=function(x){return(x<0?"-":"")+CUR()+(CUR().length>1?" ":"")+Math.abs(Math.round(x)).toLocaleString("en-GB")};
@@ -104,8 +105,9 @@ o.expenses.del.forEach(function(k){ops.push([base.collection("monthly").doc(k)])
 $("#cs").textContent="Saving…";var ps=[];
 for(var i=0;i<ops.length;i+=400){var b=fdb.batch();ops.slice(i,i+400).forEach(function(x){x[1]?b.set(x[0],x[1]):b.delete(x[0])});ps.push(b.commit())}
 Promise.all(ps).then(function(){$("#cs").textContent="☁ Synced"}).catch(cerr)}
-function save(){sync();render()}
+function save(){if(locked()){alert("Your free trial has ended. You can still view and export your data.");return}sync();render()}
 function listen(){var base=fdb.collection("users").doc(UID);
+unsubs.push(base.collection("meta").doc("account").onSnapshot(function(d){if(d.exists){TR=d.data();trB()}else if(!d.metadata.fromCache){base.collection("meta").doc("account").set({start:Date.now(),trialEnd:Date.now()+2592e6}).catch(function(){})}}));
 unsubs.push(base.collection("meta").doc("settings").onSnapshot(function(d){SET=d.exists?d.data():{};CATS=SET.cats&&SET.cats.length?SET.cats:DEFCATS.slice();var nm=SET.name||"Dealer Tracker";$("#bn").textContent=nm;document.title=nm;applyTheme();rq()},cerr));
 [["vehicles","v"],["exp","e"],["monthly","m"],["custom","c"]].forEach(function(x){unsubs.push(base.collection(x[0]).onSnapshot(function(s){
 var a=[],m={},k=x[1];SY[k]={};
@@ -118,7 +120,7 @@ function adone(){var e=$("#ae").value.trim(),p=$("#ap").value,nm=$("#anm").value
 if(!e||!p){msg.textContent="Enter email and password.";return}
 if(SU&&!nm){msg.textContent="Enter your dealership name.";return}
 msg.textContent="Please wait…";
-(SU?A.createUserWithEmailAndPassword(e,p).then(function(c){return fdb.collection("users").doc(c.user.uid).collection("meta").doc("settings").set({name:nm})}):A.signInWithEmailAndPassword(e,p)).then(function(){msg.textContent=""}).catch(function(x){msg.textContent=x.message})}
+(SU?A.createUserWithEmailAndPassword(e,p).then(function(c){c.user.sendEmailVerification().catch(function(){});return fdb.collection("users").doc(c.user.uid).collection("meta").doc("settings").set({name:nm})}):A.signInWithEmailAndPassword(e,p)).then(function(){msg.textContent=""}).catch(function(x){msg.textContent=x.message})}
 function forgot(){var e=$("#ae").value.trim(),msg=$("#amsg");if(!e){msg.textContent="Type your email first.";return}
 firebase.auth().sendPasswordResetEmail(e).then(function(){msg.textContent="Password reset email sent."}).catch(function(x){msg.textContent=x.message})}
 var PRIV_EMAIL="support@yourcompany.com",LG="";
@@ -141,7 +143,7 @@ var l=$("#lg");if(l){if(SET.logo)l.src=SET.logo;l.style.display=SET.logo?"block"
 function addSt(x){x=x||{};var d=document.createElement("div");d.className="sr";d.style.cssText="display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:6px;margin-bottom:6px";
 d.innerHTML='<input placeholder="Name" value="'+ea(x.name)+'"><input placeholder="Role (e.g. Salesperson)" value="'+ea(x.role)+'"><input placeholder="Phone" value="'+ea(x.phone)+'"><input type="number" step="any" placeholder="Comm. %" value="'+ea(x.cr)+'"><input type="number" step="any" placeholder="Flat £/car" value="'+ea(x.cf)+'"><button type="button" class="btn d" onclick="this.parentNode.remove()">Remove</button>';$("#stf").appendChild(d)}
 var CURS=["£","$","€","Rs","AED","SAR","CAD $","AUD $"],_as;
-var CUR=function(){return SET.cur||"£"};
+var CUR=function(){return SET.cur||"$"};
 function fixCur(r){var c=CUR();if(c==="£"||!r)return;r.querySelectorAll("label").forEach(function(l){l.childNodes.forEach(function(t){if(t.nodeType===3)t.textContent=t.textContent.replace(/£/g,c)})});r.querySelectorAll("input[placeholder]").forEach(function(i){i.placeholder=i.placeholder.replace(/£/g,c)})}
 var _sm=HTMLDialogElement.prototype.showModal;HTMLDialogElement.prototype.showModal=function(){_sm.call(this);fixCur(this)};
 function setSet(o){Object.assign(SET,o);fdb.collection("users").doc(UID).collection("meta").doc("settings").set(o,{merge:true}).catch(cerr);render()}
@@ -172,11 +174,11 @@ function gsign(){var m=$("#amsg");m.textContent="";firebase.auth().signInWithPop
 function init(){if(!window.firebase||FC.apiKey.indexOf("PASTE")===0){document.body.className="out";$("#amsg").textContent="Firebase is not set up yet. Paste your Firebase config into index.html.";return}
 firebase.initializeApp(FC);fdb=firebase.firestore();try{fdb.enablePersistence({synchronizeTabs:true}).catch(function(){})}catch(e){}
 firebase.auth().onAuthStateChanged(function(u){unsubs.forEach(function(f){f()});unsubs=[];
-if(!u){UID=null;D={vehicles:[],exp:[],expenses:{},custom:[]};SY={v:{},e:{},m:{},c:{}};CATS=DEFCATS.slice();SET={};applyTheme();document.body.className="out";return}
+if(!u){UID=null;D={vehicles:[],exp:[],expenses:{},custom:[]};SY={v:{},e:{},m:{},c:{}};CATS=DEFCATS.slice();SET={};TR={};trB();applyTheme();document.body.className="out";return}
 UID=u.uid;showLd();document.body.className="in";$("#cs").textContent="Loading…";listen();render()})}
 
 var ea=function(s){return esc(s).replace(/"/g,"&quot;")},cid=null;
-function custom(){var L=D.custom.slice().sort(function(a,b){return(b.date||"")<(a.date||"")?-1:(b.date||"")>(a.date||"")?1:0}),t=L.reduce(function(s,x){return s+n(x.amt)},0),
+function custom(){var L=D.custom.filter(function(x){return x.kind!=="lead"}).sort(function(a,b){return(b.date||"")<(a.date||"")?-1:(b.date||"")>(a.date||"")?1:0}),t=L.reduce(function(s,x){return s+n(x.amt)},0),
 h='<div class="bar"><button class="btn" onclick="openC()">+ Add item</button><input placeholder="Search…" oninput="fC(this.value)" style="max-width:240px"></div><div class="kpis">'+K(L.length,"Items")+K(fmt(t),"Total amount")+'</div><div class="card w" style="margin-top:10px"><table class="sm" id="ct"><tr><th class="l">Date</th><th class="l">Title</th><th class="l">Type</th><th class="l">Note</th><th>Amount</th></tr>';
 L.forEach(function(x){h+='<tr class="c" data-s="'+ea((x.title+" "+x.cat+" "+x.note).toLowerCase())+'" onclick="openC(\''+x.id+'\')"><td class="l">'+ukd(x.date)+'</td><td class="l">'+esc(x.title)+'</td><td class="l">'+esc(x.cat)+'</td><td class="l">'+esc(x.note)+'</td><td>'+(x.amt===""||x.amt==null?"–":fmt(n(x.amt)))+'</td></tr>'});
 if(!L.length)h+='<tr><td colspan="5" class="l">Nothing added yet. Tap "+ Add item" and enter anything you need to keep track of.</td></tr>';
@@ -190,6 +192,30 @@ if(!o.title){alert("Enter a title.");return}
 if(cid){o.id=cid;var i=D.custom.findIndex(function(y){return y.id===cid});D.custom[i]=o}else{o.id="c"+Date.now();D.custom.push(o)}
 $("#dlg").close();save()}
 function delC(){if(confirm("Delete this item?")){D.custom=D.custom.filter(function(x){return x.id!==cid});$("#dlg").close();save()}}
+var TR={};
+function locked(){return TR.trialEnd&&TR.trialEnd<Date.now()&&!(TR.paidUntil>Date.now())}
+function trB(){var e=$("#trb");if(!e)return;if(!TR.trialEnd||TR.paidUntil>Date.now()){e.style.display="none";return}var d=Math.ceil((TR.trialEnd-Date.now())/864e5);e.style.display="block";e.textContent=d>0?"Free trial: "+d+" day"+(d>1?"s":"")+" left":"Trial ended. Your data is safe and can be exported. Contact "+PRIV_EMAIL+" to subscribe.";e.style.background=d>0?"#fff3cd":"#f8d7da";e.style.color="#222"}
+function us(p){p=(p||"").replace(/\D/g,"");if(p.length===10)p="1"+p;return p}
+document.addEventListener("change",function(e){var t=e.target;if(t.name!=="vin")return;var v=t.value.trim().toUpperCase();if(v.length!==17)return;
+fetch("https://vpic.nhtsa.dot.gov/api/vehicles/decodevinvaluesextended/"+v+"?format=json").then(function(r){return r.json()}).then(function(j){var r=(j.Results||[])[0]||{},f=$("#frm").elements;
+[["year","ModelYear"],["make","Make"],["model","Model"]].forEach(function(a){if(f[a[0]]&&!f[a[0]].value&&r[a[1]])f[a[0]].value=String(r[a[1]]).replace(/\w\S*/g,function(w){return w[0].toUpperCase()+w.slice(1).toLowerCase()})})}).catch(function(){})});
+function pcsv(t){var R=[],r=[],f="",q=0;for(var i=0;i<t.length;i++){var c=t[i];if(q){if(c=='"'&&t[i+1]=='"'){f+='"';i++}else if(c=='"')q=0;else f+=c}else if(c=='"')q=1;else if(c==","){r.push(f);f=""}else if(c=="\n"){r.push(f);R.push(r);r=[];f=""}else if(c!="\r")f+=c}if(f||r.length){r.push(f);R.push(r)}return R}
+function impCSV(){var i=document.createElement("input");i.type="file";i.accept=".csv";i.onchange=function(){var r=new FileReader();r.onload=function(){var rows=pcsv(r.result),h=rows.shift().map(function(x){return x.trim().toLowerCase()}),c=0;
+rows.forEach(function(row){if(row.join("").trim()==="")return;var o={id:"v"+Date.now()+"i"+c};FIELDS.forEach(function(f){o[f[0]]=f[0]==="paid"?"Cash":""});
+h.forEach(function(x,j){var f=FIELDS.find(function(f){return f[0]===x||f[1].toLowerCase()===x});if(f)o[f[0]]=(row[j]||"").trim()});D.vehicles.push(o);c++});save();alert("Imported "+c+" vehicles. Use the field names (stock, year, make, model, miles, price, vin, sdate, sprice...) as the CSV column headings.")};r.readAsText(i.files[0])};i.click()}
+function demo(){if(!confirm("Add 3 sample cars and 2 sample expenses so you can try the app?"))return;var t=Date.now(),d=function(k){return new Date(t-k*864e5).toISOString().slice(0,10)};
+[["Honda","Civic",2018,52000,9800,350,d(40),d(12),11900,"Sample Customer"],["Toyota","Camry",2017,64000,11200,500,d(30),"","",""],["Ford","F-150",2016,91000,15400,900,d(20),d(3),18500,"Sample Buyer"]].forEach(function(a,i){var o={id:"v"+t+"d"+i};FIELDS.forEach(function(f){o[f[0]]=f[0]==="paid"?"Cash":""});
+Object.assign(o,{stock:"D"+(i+1),make:a[0],model:a[1],year:a[2],miles:a[3],price:a[4],recon:a[5],pdate:a[6],sdate:a[7],sprice:a[8],cust:a[9]});D.vehicles.push(o)});
+D.exp.push({id:"e"+t+"a",date:d(5),cat:CATS[0],amt:1200,note:"Sample"},{id:"e"+t+"b",date:d(2),cat:CATS[3]||CATS[0],amt:800,note:"Sample"});save()}
+function leads(){var L=D.custom.filter(function(x){return x.kind==="lead"}).sort(function(a,b){return(a.date||"9")<(b.date||"9")?-1:1}),t=today(),op=function(x){return x.cat!=="Won"&&x.cat!=="Lost"},
+h='<div class="bar"><button class="btn" onclick="openLd()">+ Add lead</button></div><div class="kpis">'+K(L.filter(op).length,"Open leads")+K(L.filter(function(x){return op(x)&&x.date&&x.date<=t}).length,"Follow-ups due")+K(L.filter(function(x){return x.cat==="Won"}).length,"Won")+'</div><div class="card w" style="margin-top:10px"><table class="sm"><tr><th class="l">Follow-up</th><th class="l">Name</th><th class="l">Interested in</th><th class="l">Status</th><th></th></tr>';
+L.forEach(function(x){var m=encodeURIComponent("Hi "+x.title+", this is "+BN()+". Just following up"+(x.car?" about the "+x.car:"")+". Are you still interested? Reply anytime.");
+h+='<tr class="c" onclick="openLd(\''+x.id+'\')"><td class="l">'+esc(ukd(x.date))+'</td><td class="l">'+esc(x.title)+'</td><td class="l">'+esc(x.car)+'</td><td class="l">'+esc(x.cat)+'</td><td>'+(x.phone?'<a href="sms:+'+us(x.phone)+'?&body='+m+'" onclick="event.stopPropagation()">Text</a> · <a href="tel:+'+us(x.phone)+'" onclick="event.stopPropagation()">Call</a>':"")+'</td></tr>'});
+if(!L.length)h+='<tr><td colspan="5" class="l">No leads yet. Tap "+ Add lead".</td></tr>';return h+'</table></div>'}
+function openLd(id){cid=id||null;var x=Object.assign({title:"",phone:"",car:"",cat:"New",date:today(),note:""},D.custom.find(function(y){return y.id===id})||{});
+$("#frm").oninput=null;$("#frm").innerHTML='<h3 style="margin-top:0">'+(id?"Edit lead":"Add lead")+'</h3><div class="g2"><div><label>Name</label><input name="title" value="'+ea(x.title)+'"></div><div><label>Phone</label><input name="phone" type="tel" value="'+ea(x.phone)+'"></div><div><label>Interested in</label><input name="car" value="'+ea(x.car)+'"></div><div><label>Status</label><select name="cat">'+["New","Contacted","Test drive","Negotiating","Won","Lost"].map(function(s){return'<option'+(s===x.cat?" selected":"")+'>'+s+'</option>'}).join("")+'</select></div><div><label>Follow-up date</label><input name="date" type="date" value="'+ea(x.date)+'"></div></div><label style="margin-top:8px">Note</label><input name="note" value="'+ea(x.note)+'"><div class="bar" style="margin-top:12px"><button type="button" class="btn" onclick="saveLd()">Save</button><button type="button" class="btn g" onclick="$(\'#dlg\').close()">Cancel</button>'+(id?'<button type="button" class="btn d" onclick="delC()">Delete</button>':'')+'</div>';$("#dlg").showModal()}
+function saveLd(){var e=$("#frm").elements,o={kind:"lead",title:e.title.value.trim(),phone:e.phone.value.trim(),car:e.car.value.trim(),cat:e.cat.value,date:e.date.value,note:e.note.value.trim(),amt:""};
+if(!o.title){alert("Enter a name.");return}if(cid){o.id=cid;D.custom[D.custom.findIndex(function(y){return y.id===cid})]=o}else{o.id="l"+Date.now();D.custom.push(o)}$("#dlg").close();save()}
 function exOf(p,c){var t=D.exp.filter(function(x){return(x.date||"").indexOf(p)===0&&(!c||x.cat===c)}).reduce(function(s,x){return s+n(x.amt)},0);
 Object.keys(D.expenses).forEach(function(k){if(k.indexOf(p)===0)(c?[c]:CATS).forEach(function(q){t+=n((D.expenses[k]||{})[q])})});return t}
 function calc(p){var s=D.vehicles.filter(function(v){return sold(v)&&v.sdate.indexOf(p)===0}),b=D.vehicles.filter(function(v){return v.pdate&&v.pdate.indexOf(p)===0}),r={s:s,b:b,rev:0,pr:0,tx:0,rc:0,fl:0,tp:0,bk:0,cm:0,loss:0,dy:0,bc:0};
@@ -199,7 +225,7 @@ r.vc=r.pr+r.tx+r.rc+r.fl+r.tp+r.cm;r.gross=r.rev-r.vc;r.ex=exOf(p);r.net=r.gross
 function K(v,l,c){return '<div class="kpi"><b class="'+(c||"")+'">'+v+'</b><span>'+l+'</span></div>'}
 function R(l,v,c,t){return '<tr'+(t?' class="tot"':'')+'><td class="l">'+l+'</td><td class="'+(c||"")+'">'+fmt(v)+'</td></tr>'}
 function vn(v){return esc([v.year,v.make,v.model].join(" "))}
-function render(){$("#app").innerHTML={w:overview,v:vehicles,o:soldTab,d:daily,e:expenses,s:summary,c:custom,r:recv,t:team,x:reports,n:rent,p:progress}[tab]();fixCur($("#app"));
+function render(){$("#app").innerHTML={w:overview,v:vehicles,o:soldTab,d:daily,e:expenses,s:summary,c:custom,l:leads,r:recv,t:team,x:reports,n:rent,p:progress}[tab]();fixCur($("#app"));
 document.querySelectorAll("nav button").forEach(function(b){b.classList.toggle("on",b.dataset.t===tab)});if(tab==="x")loadAudit()}
 function bk(){return '<button class="btn" onclick="exp(1)">Send / Download PDF</button><button class="btn g" onclick="$(\'#imp\').click()">Import backup</button>'}
 
@@ -219,7 +245,7 @@ h+='<h3 class="sec">Money in stock (right now)</h3><div class="kpis">'+K(st.leng
 h+='<h3 class="sec">Cars bought ('+{d:"today",m:"this month",y:"this year",a:"all time"}[PR]+')</h3><div class="kpis">'+K(r.b.length,"Cars bought")+K(fmt(r.bc),"Total spent on them")+'</div>';
 return h+'<p class="note">Gross profit = sold price − (purchase + taxes &amp; DVLA + reconditioning + floorplan). Net profit = gross profit − all expenses. Only sold cars count toward profit.</p>'}
 
-function vehicles(){var h='<div class="bar"><button class="btn" onclick="openF(null)">+ Add vehicle</button><input placeholder="Search stock, make, reg…" oninput="fT(\'vt\',this.value)" style="max-width:240px">'+bk()+'</div>';
+function vehicles(){var h='<div class="bar"><button class="btn" onclick="openF(null)">+ Add vehicle</button><button class="btn g" onclick="impCSV()">Import CSV</button><button class="btn g" onclick="demo()">Load demo data</button><input placeholder="Search stock, make, reg…" oninput="fT(\'vt\',this.value)" style="max-width:240px">'+bk()+'</div>';
 var st=D.vehicles.filter(function(v){return !sold(v)});
 h+='<div class="card w"><table id="vt"><tr><th class="l">Stock #</th><th class="l">Vehicle</th><th>Bought</th><th>Source</th><th>Paid by</th><th>Total cost</th><th>Days</th><th></th></tr>';
 if(!st.length)h+='<tr><td colspan="8" class="l">No cars in stock. Tap “+ Add vehicle”.</td></tr>';
@@ -482,11 +508,11 @@ function logA(act,what){try{if(fdb&&UID)fdb.collection("users").doc(UID).collect
 function alerts(){var h="",a=D.vehicles.filter(function(v){return !sold(v)&&days(v)>AGE()}),od=D.vehicles.filter(function(v){return bal(v)>0&&v.due&&v.due<today()});
 if(a.length)h+='<div class="warn">⏳ <b>'+a.length+' car'+(a.length>1?'s':'')+'</b> in stock over '+AGE()+' days ('+fmt(a.reduce(function(s,v){return s+cost(v)},0))+' tied up): '+esc(a.slice(0,6).map(function(v){return v.stock||pn(v)}).join(", "))+(a.length>6?"…":"")+'</div>';
 var mo=D.vehicles.filter(function(v){return !sold(v)&&v.mot&&v.mot<new Date(Date.now()+2592e6).toISOString().slice(0,10)});
-if(mo.length)h+='<div class="warn">🔧 <b>'+mo.length+' car'+(mo.length>1?"s":"")+'</b> with MOT expired or due within 30 days: '+esc(mo.slice(0,6).map(function(v){return(v.reg||v.stock||pn(v)).toUpperCase()}).join(", "))+'</div>';
+if(mo.length)h+='<div class="warn">🔧 <b>'+mo.length+' car'+(mo.length>1?"s":"")+'</b> with inspection expired or due within 30 days: '+esc(mo.slice(0,6).map(function(v){return(v.reg||v.stock||pn(v)).toUpperCase()}).join(", "))+'</div>';
 if(od.length)h+='<div class="warn">💸 <b>'+od.length+' overdue payment'+(od.length>1?'s':'')+'</b> – '+fmt(od.reduce(function(s,v){return s+bal(v)},0))+' owed. Open the Receivables tab.</div>';return h+rtAlerts()}
 function pbar(){var h='<div class="bar">';[["d","Today"],["m","This month"],["y","This year"],["a","All time"]].forEach(function(x){h+='<button class="btn g'+(PR===x[0]?" on":"")+'" onclick="PR=\''+x[0]+'\';render()">'+x[1]+'</button>'});return h+'</div>'}
 function vById(id){return D.vehicles.find(function(x){return x.id===id})}
-var ukd=function(d){return d?String(d).split("-").reverse().join("/"):""};
+var ukd=function(d){if(!d)return"";var p=String(d).split("-");return p.length===3?p[1]+"/"+p[2]+"/"+p[0]:d};
 function fT(id,q){q=q.toLowerCase();document.querySelectorAll("#"+id+" tr[data-s]").forEach(function(r){r.style.display=r.dataset.s.indexOf(q)<0?"none":""})}
 var _rt;function rq(){clearTimeout(_rt);_rt=setTimeout(function(){rq()},40)}
 function quick(){return '<div class="bar"><button class="btn s" onclick="openF(null)">+ Vehicle</button><button class="btn s" onclick="openF(null,1)">+ Sold car</button><button class="btn s" onclick="openE(null)">+ Expense</button><button class="btn s" onclick="tab=\'r\';render()">+ Payment</button><button class="btn s" onclick="openC()">+ Item</button></div>'}
@@ -506,7 +532,7 @@ v.pays=(v.pays||[]).concat([{d:e.d.value,a:a,m:e.m.value}]);v.recv=n(v.recv)+a;v
 function paidFull(id){var v=vById(id);if(!v||!confirm("Mark "+fmt(bal(v))+" as received and clear the balance?"))return;var a=bal(v);v.pays=(v.pays||[]).concat([{d:today(),a:a,m:"Paid in full"}]);v.recv=n(v.sprice);v.due="";logA("Paid in full",pn(v)+" "+(v.cust||""));save()}
 function hist(id){var v=vById(id);if(!v)return;var P=v.pays||[];$("#frm").oninput=null;$("#frm").innerHTML='<h3 style="margin-top:0">Payments – '+esc(v.cust||pn(v))+'</h3><table class="sm"><tr><th class="l">Date</th><th class="l">Method</th><th>Amount</th></tr>'+(P.length?P.map(function(p){return'<tr><td class="l">'+ukd(p.d)+'</td><td class="l">'+esc(p.m)+'</td><td>'+fmt(p.a)+'</td></tr>'}).join(""):'<tr><td colspan="3" class="l">No payments recorded yet.</td></tr>')+'</table><div class="bar" style="margin-top:12px">'+(P.length?'<button type="button" class="btn d" onclick="undoPay(\''+id+'\')">Undo last payment</button>':'')+'<button type="button" class="btn g" onclick="$(\'#dlg\').close()">Close</button></div>';$("#dlg").showModal()}
 function undoPay(id){var v=vById(id),p=(v.pays||[]).pop();if(!p||!confirm("Remove the "+fmt(p.a)+" payment?")){if(p)v.pays.push(p);return}v.recv=Math.max(0,n(v.recv)-p.a);logA("Payment removed",fmt(p.a)+" for "+pn(v));$("#dlg").close();save()}
-function remind(id){var v=vById(id);if(!v)return;var ph=(v.phone||"").replace(/\D/g,"");if(ph[0]==="0")ph="44"+ph.slice(1);
+function remind(id){var v=vById(id);if(!v)return;var ph=(v.phone||"").replace(/\D/g,"");ph=us(ph);
 window.open("https://wa.me/"+ph+"?text="+encodeURIComponent("Hello "+(v.cust||"")+", a friendly reminder from "+BN()+": a balance of "+fmt(bal(v))+" is due"+(v.due?" on "+ukd(v.due):"")+" for your "+pn(v)+". Thank you!"),"_blank")}
 var stf=function(nm){nm=(nm||"").trim().toLowerCase();return(SET.staff||[]).find(function(x){return x.name.toLowerCase()===nm})};
 var sk=function(v){return(v.sales||"").trim()||"(no salesperson)"};
@@ -657,4 +683,5 @@ s.forEach(function(d){var x=d.data();h+='<tr><td class="l">'+esc(new Date(x.t).t
 if(s.empty)h+='<tr><td colspan="3" class="l">No activity yet.</td></tr>';var q=$("#al");if(q)q.innerHTML=h+'</table>'}).catch(function(){var q=$("#al");if(q)q.textContent="Could not load the log. Make sure your Firestore rules allow users/{uid}/audit."})}
 
 init();
+if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});
 </script></body></html>
