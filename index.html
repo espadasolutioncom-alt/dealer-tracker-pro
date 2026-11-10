@@ -36,12 +36,14 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}label{font-size:12px;color:var(--mu);display:block}
 .ex{display:grid;grid-template-columns:1fr 130px;gap:8px;align-items:center;margin-bottom:6px}
 .note{color:var(--mu);font-size:12px;margin:6px 0}
-#auth{display:none;max-width:380px;margin:40px auto;padding:0 12px}body.out #auth{display:block}body:not(.in) header,body:not(.in) nav,body:not(.in) main{display:none}
+.spin{display:inline-block;width:12px;height:12px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px}@keyframes sp{to{transform:rotate(360deg)}}
+.btn:disabled{opacity:.7;cursor:wait}
 #pl{margin:10px 0;padding:10px;border:2px solid var(--ln);border-radius:8px;font-size:15px}
 @media(max-width:600px){.ex{grid-template-columns:1fr 110px}.g2{grid-template-columns:1fr}input,select,textarea{font-size:16px}.btn{padding:11px 14px}main{padding:8px}.kpi b{font-size:16px}}
+#auth{display:none;max-width:380px;margin:40px auto;padding:0 12px}body.out #auth{display:block}body:not(.in) header,body:not(.in) nav,body:not(.in) main{display:none}
 </style></head><body>
 <header style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div><h1 id="bn">Dealer Tracker</h1><p><span id="cs"></span></p></div><div style="white-space:nowrap"><button class="btn g" style="color:#fff;border-color:#fff6;padding:6px 10px" onclick="openS()">⚙ Settings</button> <button class="btn g" style="color:#fff;border-color:#fff6;padding:6px 10px" onclick="firebase.auth().signOut()">Log out</button></div></header>
-<nav id="nav"><button data-t="w" class="on">Overview</button><button data-t="v">Vehicles</button><button data-t="o">Sold</button><button data-t="d">Daily</button><button data-t="e">Expenses</button><button data-t="s">Monthly</button></nav>
+<nav id="nav"><button data-t="w" class="on">Overview</button><button data-t="v">Vehicles</button><button data-t="o">Sold</button><button data-t="d">Daily</button><button data-t="e">Expenses</button><button data-t="s">Monthly</button><button data-t="c">Custom</button></nav>
 <div id="auth"><div class="card"><h2 style="margin-top:0">Dealer Tracker</h2><div id="an" style="display:none;margin-bottom:8px"><label>Dealership name</label><input id="anm"></div><label>Email</label><input id="ae" type="email" autocomplete="username" style="margin-bottom:8px"><label>Password (min 6 characters)</label><input id="ap" type="password" autocomplete="current-password" style="margin-bottom:12px" onkeydown="if(event.key==='Enter')adone()"><button class="btn" id="ab" onclick="adone()" style="width:100%">Sign in</button><p class="note" id="amsg" style="color:var(--bad)"></p><p class="note"><a href="#" id="at" onclick="amode(!SU);return false">New dealership? Create an account</a> · <a href="#" onclick="forgot();return false">Forgot password?</a></p></div></div>
 <main id="app"></main>
 <input type="file" id="imp" accept=".json" hidden>
@@ -62,16 +64,16 @@ var profit=function(v){return n(v.sprice)-cost(v)};
 var pct=function(v){return n(v.sprice)?(profit(v)/n(v.sprice)*100).toFixed(1)+"%":"–"};
 var days=function(v){if(!v.pdate)return"";var e=sold(v)?new Date(v.sdate):new Date();return Math.round((e-new Date(v.pdate))/864e5)};
 var today=function(){var d=new Date();return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)};
-var D={vehicles:[],exp:[],expenses:{}},tab="w",PR="m",DD=today(),editId=null,ek=today().slice(0,7),yr=+today().slice(0,4);
-function mig(d){d.vehicles=d.vehicles||[];d.exp=d.exp||[];d.expenses=d.expenses||{};
+var D={vehicles:[],exp:[],expenses:{},custom:[]},tab="w",PR="m",DD=today(),editId=null,ek=today().slice(0,7),yr=+today().slice(0,4);
+function mig(d){d.vehicles=d.vehicles||[];d.exp=d.exp||[];d.expenses=d.expenses||{};d.custom=d.custom||[];
 d.exp=d.exp.filter(function(x){if(x.note==="Monthly total (from old version)"){var k=x.date.slice(0,7);d.expenses[k]=d.expenses[k]||{};d.expenses[k][x.cat]=d.expenses[k][x.cat]||x.amt;return false}return true});return d}
 function load(){try{var s=localStorage.getItem("rbdata");if(s)D=mig(Object.assign(D,JSON.parse(s)))}catch(e){}}
 var FC={apiKey:"AIzaSyAuwXHpVMrtBYKVZ_RkoXfxADujZmHzA60",authDomain:"dealer-tracker-91bfa.firebaseapp.com",projectId:"dealer-tracker-91bfa",appId:"1:511046631352:web:b1cd2c3bee815fe9a8994d"};
-var SY={v:{},e:{},m:{}},UID=null,fdb=null,unsubs=[],SET={},SU=0;
-function cerr(e){SY={v:{},e:{},m:{}};$("#cs").textContent="Save failed – check connection";console.log(e)}
-function diff(){var o={vehicles:{set:[],del:[]},exp:{set:[],del:[]},expenses:{set:{},del:[]}},any=0;
+var SY={v:{},e:{},m:{},c:{}},UID=null,fdb=null,unsubs=[],SET={},SU=0;
+function cerr(e){SY={v:{},e:{},m:{},c:{}};$("#cs").textContent="Save failed – check connection";console.log(e)}
+function diff(){var o={vehicles:{set:[],del:[]},exp:{set:[],del:[]},expenses:{set:{},del:[]},custom:{set:[],del:[]}},any=0;
 function f(arr,key,t){var seen={};arr.forEach(function(r){seen[r.id]=1;if(SY[key][r.id]!==JSON.stringify(r)){t.set.push(r);any=1}});Object.keys(SY[key]).forEach(function(id){if(!seen[id]){t.del.push(id);any=1}})}
-f(D.vehicles,"v",o.vehicles);f(D.exp,"e",o.exp);
+f(D.vehicles,"v",o.vehicles);f(D.exp,"e",o.exp);f(D.custom,"c",o.custom);
 Object.keys(D.expenses).forEach(function(k){if(SY.m[k]!==JSON.stringify(D.expenses[k])){o.expenses.set[k]=D.expenses[k];any=1}});
 Object.keys(SY.m).forEach(function(k){if(!D.expenses[k]){o.expenses.del.push(k);any=1}});return any?o:null}
 function ok(){var a=document.activeElement;return !$("#dlg").open&&!(a&&a.tagName==="INPUT")}
@@ -80,6 +82,8 @@ o.vehicles.set.forEach(function(r){ops.push([base.collection("vehicles").doc(r.i
 o.vehicles.del.forEach(function(id){ops.push([base.collection("vehicles").doc(id)]);delete SY.v[id]});
 o.exp.set.forEach(function(r){ops.push([base.collection("exp").doc(r.id),r]);SY.e[r.id]=JSON.stringify(r)});
 o.exp.del.forEach(function(id){ops.push([base.collection("exp").doc(id)]);delete SY.e[id]});
+o.custom.set.forEach(function(r){ops.push([base.collection("custom").doc(r.id),r]);SY.c[r.id]=JSON.stringify(r)});
+o.custom.del.forEach(function(id){ops.push([base.collection("custom").doc(id)]);delete SY.c[id]});
 Object.keys(o.expenses.set).forEach(function(k){ops.push([base.collection("monthly").doc(k),o.expenses.set[k]]);SY.m[k]=JSON.stringify(o.expenses.set[k])});
 o.expenses.del.forEach(function(k){ops.push([base.collection("monthly").doc(k)]);delete SY.m[k]});
 $("#cs").textContent="Saving…";var ps=[];
@@ -88,10 +92,10 @@ Promise.all(ps).then(function(){$("#cs").textContent="☁ Synced"}).catch(cerr)}
 function save(){sync();render()}
 function listen(){var base=fdb.collection("users").doc(UID);
 unsubs.push(base.collection("meta").doc("settings").onSnapshot(function(d){SET=d.exists?d.data():{};CATS=SET.cats&&SET.cats.length?SET.cats:DEFCATS.slice();var nm=SET.name||"Dealer Tracker";$("#bn").textContent=nm;document.title=nm;if(ok())render()},cerr));
-[["vehicles","v"],["exp","e"],["monthly","m"]].forEach(function(x){unsubs.push(base.collection(x[0]).onSnapshot(function(s){
+[["vehicles","v"],["exp","e"],["monthly","m"],["custom","c"]].forEach(function(x){unsubs.push(base.collection(x[0]).onSnapshot(function(s){
 var a=[],m={},k=x[1];SY[k]={};
 s.forEach(function(d){var r=d.data();if(k==="m"){m[d.id]=r;SY.m[d.id]=JSON.stringify(r)}else{a.push(r);SY[k][r.id]=JSON.stringify(r)}});
-if(k==="v")D.vehicles=a;else if(k==="e")D.exp=a;else D.expenses=m;
+if(k==="v")D.vehicles=a;else if(k==="e")D.exp=a;else if(k==="c")D.custom=a;else D.expenses=m;
 if(!s.metadata.hasPendingWrites)$("#cs").textContent="☁ Synced";
 if(ok())render()},cerr))})}
 function amode(m){SU=m?1:0;$("#an").style.display=SU?"block":"none";$("#ab").textContent=SU?"Create account":"Sign in";$("#at").textContent=SU?"Already have an account? Sign in":"New dealership? Create an account"}
@@ -108,9 +112,24 @@ fdb.collection("users").doc(UID).collection("meta").doc("settings").set({name:e.
 function init(){if(!window.firebase||FC.apiKey.indexOf("PASTE")===0){document.body.className="out";$("#amsg").textContent="Firebase is not set up yet. Paste your Firebase config into index.html.";return}
 firebase.initializeApp(FC);fdb=firebase.firestore();try{fdb.enablePersistence({synchronizeTabs:true}).catch(function(){})}catch(e){}
 firebase.auth().onAuthStateChanged(function(u){unsubs.forEach(function(f){f()});unsubs=[];
-if(!u){UID=null;D={vehicles:[],exp:[],expenses:{}};SY={v:{},e:{},m:{}};CATS=DEFCATS.slice();SET={};document.body.className="out";return}
+if(!u){UID=null;D={vehicles:[],exp:[],expenses:{},custom:[]};SY={v:{},e:{},m:{},c:{}};CATS=DEFCATS.slice();SET={};document.body.className="out";return}
 UID=u.uid;document.body.className="in";$("#cs").textContent="Loading…";listen();render()})}
 
+var ea=function(s){return esc(s).replace(/"/g,"&quot;")},cid=null;
+function custom(){var L=D.custom.slice().sort(function(a,b){return(b.date||"")<(a.date||"")?-1:(b.date||"")>(a.date||"")?1:0}),t=L.reduce(function(s,x){return s+n(x.amt)},0),
+h='<div class="bar"><button class="btn" onclick="openC()">+ Add item</button><input placeholder="Search…" oninput="fC(this.value)" style="max-width:240px"></div><div class="kpis">'+K(L.length,"Items")+K(fmt(t),"Total amount")+'</div><div class="card w" style="margin-top:10px"><table class="sm" id="ct"><tr><th class="l">Date</th><th class="l">Title</th><th class="l">Type</th><th class="l">Note</th><th>Amount</th></tr>';
+L.forEach(function(x){h+='<tr class="c" data-s="'+ea((x.title+" "+x.cat+" "+x.note).toLowerCase())+'" onclick="openC(\''+x.id+'\')"><td class="l">'+esc(x.date)+'</td><td class="l">'+esc(x.title)+'</td><td class="l">'+esc(x.cat)+'</td><td class="l">'+esc(x.note)+'</td><td>'+(x.amt===""||x.amt==null?"–":fmt(n(x.amt)))+'</td></tr>'});
+if(!L.length)h+='<tr><td colspan="5" class="l">Nothing added yet. Tap "+ Add item" and enter anything you need to keep track of.</td></tr>';
+return h+'</table></div>'}
+function fC(q){q=q.toLowerCase();document.querySelectorAll("#ct tr[data-s]").forEach(function(r){r.style.display=r.dataset.s.indexOf(q)<0?"none":""})}
+function openC(id){cid=id||null;var x=Object.assign({date:today(),title:"",cat:"",amt:"",note:""},D.custom.find(function(y){return y.id===id})||{}),
+cs=Array.from(new Set(D.custom.map(function(y){return y.cat}).filter(Boolean)));
+$("#frm").oninput=null;$("#frm").innerHTML='<h3 style="margin-top:0">'+(id?"Edit item":"Add item")+'</h3><div class="g2"><div><label>Date</label><input name="date" type="date" value="'+ea(x.date)+'"></div><div><label>Title</label><input name="title" type="text" value="'+ea(x.title)+'"></div><div><label>Type / group (type your own)</label><input name="cat" list="cl" type="text" value="'+ea(x.cat)+'"><datalist id="cl">'+cs.map(function(c){return'<option value="'+ea(c)+'">'}).join("")+'</datalist></div><div><label>Amount (optional)</label><input name="amt" type="number" step="any" value="'+ea(x.amt)+'"></div></div><label style="margin-top:8px">Note</label><input name="note" type="text" value="'+ea(x.note)+'"><div class="bar" style="margin-top:12px"><button type="button" class="btn" onclick="saveC()">Save</button><button type="button" class="btn g" onclick="$(\'#dlg\').close()">Cancel</button>'+(id?'<button type="button" class="btn d" onclick="delC()">Delete</button>':'')+'</div>';$("#dlg").showModal()}
+function saveC(){var e=$("#frm").elements,o={date:e.date.value,title:e.title.value.trim(),cat:e.cat.value.trim(),amt:e.amt.value===""?"":n(e.amt.value),note:e.note.value.trim()};
+if(!o.title){alert("Enter a title.");return}
+if(cid){o.id=cid;var i=D.custom.findIndex(function(y){return y.id===cid});D.custom[i]=o}else{o.id="c"+Date.now();D.custom.push(o)}
+$("#dlg").close();save()}
+function delC(){if(confirm("Delete this item?")){D.custom=D.custom.filter(function(x){return x.id!==cid});$("#dlg").close();save()}}
 function exOf(p,c){var t=D.exp.filter(function(x){return(x.date||"").indexOf(p)===0&&(!c||x.cat===c)}).reduce(function(s,x){return s+n(x.amt)},0);
 Object.keys(D.expenses).forEach(function(k){if(k.indexOf(p)===0)(c?[c]:CATS).forEach(function(q){t+=n((D.expenses[k]||{})[q])})});return t}
 function calc(p){var s=D.vehicles.filter(function(v){return sold(v)&&v.sdate.indexOf(p)===0}),b=D.vehicles.filter(function(v){return v.pdate&&v.pdate.indexOf(p)===0}),r={s:s,b:b,rev:0,pr:0,tx:0,rc:0,fl:0,loss:0,dy:0,bc:0};
@@ -120,13 +139,13 @@ r.vc=r.pr+r.tx+r.rc+r.fl;r.gross=r.rev-r.vc;r.ex=exOf(p);r.net=r.gross-r.ex;retu
 function K(v,l,c){return '<div class="kpi"><b class="'+(c||"")+'">'+v+'</b><span>'+l+'</span></div>'}
 function R(l,v,c,t){return '<tr'+(t?' class="tot"':'')+'><td class="l">'+l+'</td><td class="'+(c||"")+'">'+fmt(v)+'</td></tr>'}
 function vn(v){return esc([v.year,v.make,v.model].join(" "))}
-function render(){$("#app").innerHTML={w:overview,v:vehicles,o:soldTab,d:daily,e:expenses,s:summary}[tab]();
+function render(){$("#app").innerHTML={w:overview,v:vehicles,o:soldTab,d:daily,e:expenses,s:summary,c:custom}[tab]();
 document.querySelectorAll("nav button").forEach(function(b){b.classList.toggle("on",b.dataset.t===tab)})}
-function bk(){return '<button class="btn g" onclick="exp(1)">Share / Export backup</button><button class="btn g" onclick="$(\'#imp\').click()">Import backup</button>'}
+function bk(){return '<button class="btn" onclick="exp(1)">Send / Download PDF</button><button class="btn g" onclick="$(\'#imp\').click()">Import backup</button>'}
 
 function overview(){var p={d:today(),m:today().slice(0,7),y:today().slice(0,4),a:""}[PR],r=calc(p),lb=null;
 try{lb=localStorage.getItem("rbbk")}catch(e){}
-var h='';if(D.vehicles.length&&(!lb||(new Date()-new Date(lb))>6048e5))h+='<div class="warn">⚠ No backup in the last 7 days. Tap “Share / Export backup” and save the file somewhere safe.</div>';
+var h='';if(D.vehicles.length&&(!lb||(new Date()-new Date(lb))>6048e5))h+='<div class="warn">⚠ No backup in the last 7 days. Tap “Send / Download PDF”, then “Download data backup”, and save the file somewhere safe.</div>';
 h+='<div class="bar">';[["d","Today"],["m","This month"],["y","This year"],["a","All time"]].forEach(function(x){h+='<button class="btn g'+(PR===x[0]?" on":"")+'" onclick="PR=\''+x[0]+'\';render()">'+x[1]+'</button>'});h+=bk()+'</div>';
 h+='<h3 class="sec" style="margin-top:4px">Profit &amp; Loss</h3><div class="kpis">'+K(r.s.length,"Cars sold")+K(fmt(r.rev),"Sales (money in)")+K(fmt(r.gross),"Gross profit on cars",cl(r.gross))+K(fmt(r.ex),"Office, marketing &amp; salary")+K(fmt(r.net),"NET PROFIT / LOSS",cl(r.net))+K(r.s.length?fmt(r.gross/r.s.length):"–","Avg profit per car")+K(r.loss,"Cars sold at a loss")+K(r.s.length?Math.round(r.dy/r.s.length):"–","Avg days to sell")+'</div>';
 h+='<div class="card w" style="margin-top:12px"><table class="sm"><tr><th class="l">Detailed statement</th><th>Amount</th></tr>'+R("Sales of vehicles",r.rev,"",1)+R("− Vehicle purchase price",-r.pr)+R("− Taxes &amp; DMV fees",-r.tx)+R("− Reconditioning",-r.rc)+R("− Floorplan fees",-r.fl)+R("Gross profit",r.gross,cl(r.gross),1);
@@ -171,7 +190,7 @@ if(editId){var i=D.vehicles.findIndex(function(x){return x.id===editId});o.id=ed
 $("#dlg").close();save()}
 function delV(){if(confirm("Delete this vehicle?")){D.vehicles=D.vehicles.filter(function(x){return x.id!==editId});$("#dlg").close();save()}}
 
-function daily(){var r=calc(DD),h='<div class="bar"><button class="btn g" onclick="shiftD(-1)">◀</button><input type="date" value="'+DD+'" onchange="DD=this.value||today();render()" style="width:auto"><button class="btn g" onclick="shiftD(1)">▶</button><button class="btn g" onclick="DD=today();render()">Today</button></div>';
+function daily(){var r=calc(DD),h='<div class="bar"><button class="btn g" onclick="shiftD(-1)">◀</button><input type="date" value="'+DD+'" onchange="DD=this.value||today();render()" style="width:auto"><button class="btn g" onclick="shiftD(1)">▶</button><button class="btn g" onclick="DD=today();render()">Today</button>'+bk()+'</div>';
 h+='<div class="kpis">'+K(r.b.length,"Cars bought")+K(fmt(r.bc),"Spent on purchases")+K(r.s.length,"Cars sold")+K(fmt(r.rev),"Sales")+K(fmt(r.gross),"Profit on cars sold",cl(r.gross))+K(fmt(r.ex),"Expenses")+K(fmt(r.net),"Day net",cl(r.net))+'</div>';
 h+='<div class="bar" style="margin-top:18px"><h3 class="sec" style="margin:0;flex:1">Bought</h3><button class="btn s" onclick="openF(null,0,DD)">+ Add bought car</button></div><div class="card w"><table class="sm"><tr><th class="l">Stock #</th><th class="l">Vehicle</th><th class="l">Source</th><th>Paid by</th><th>Cost</th></tr>';
 if(!r.b.length)h+='<tr><td colspan="5" class="l">None</td></tr>';
@@ -185,39 +204,14 @@ ex.forEach(function(x){h+='<tr class="c" onclick="openE(\''+x.id+'\')"><td class
 return h+'</table></div><button class="btn" onclick="openE(null,DD)">+ Add expense for this day</button>'}
 function shiftD(k){var d=new Date(DD+"T12:00:00");d.setDate(d.getDate()+k);DD=d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2);render()}
 
-function expenses(){var e=D.expenses[ek]||{},t=0;CATS.forEach(function(c){t+=n(e[c])});var x=exOf(ek)-t;
-var h='<div class="card"><div class="bar"><label style="margin:0">Month</label><input type="month" value="'+ek+'" onchange="ek=this.value||ek;render()" style="width:auto"></div>';
-CATS.forEach(function(c){h+='<div class="ex"><span>'+c+'</span><input type="number" step="any" placeholder="0" data-c="'+c+'" value="'+(e[c]||"")+'" onchange="setE(\''+c+'\',this.value)"></div>'});
-h+='<p><b>Total for '+ek+': '+fmt(t)+'</b></p><div class="bar"><button class="btn" onclick="saveM()">Save</button><span id="sm" class="pos"></span></div><p class="note">Tap Save after entering the details. You can come back and add or change amounts anytime, then Save again.</p>';
-if(x)h+='<p class="note">+ '+fmt(x)+' of expenses added on the Daily tab (included in Overview and Monthly).</p>';
-return h+'</div>'}
-function saveM(){D.expenses[ek]=D.expenses[ek]||{};document.querySelectorAll("input[data-c]").forEach(function(i){D.expenses[ek][i.dataset.c]=i.value});save();var m=$("#sm");if(m){m.textContent="✓ Saved";setTimeout(function(){var q=$("#sm");if(q)q.textContent=""},2500)}}
-function setE(c,v){D.expenses[ek]=D.expenses[ek]||{};D.expenses[ek][c]=v;save()}
-function openE(id,d){editId=id;var x=Object.assign({date:d||(ek===today().slice(0,7)?today():ek+"-01"),cat:CATS[0]},D.exp.find(function(y){return y.id===id})||{});
-var h='<h3 style="margin-top:0">'+(id?"Edit expense":"Add expense")+'</h3><div class="g2"><div><label>Date</label><input name="date" type="date" value="'+esc(x.date)+'"></div><div><label>Category</label><select name="cat">'+CATS.map(function(c){return'<option'+(c===x.cat?" selected":"")+'>'+c+'</option>'}).join("")+'</select></div><div><label>Amount ($)</label><input name="amt" type="number" step="any" value="'+esc(x.amt)+'"></div><div><label>Note (optional)</label><input name="note" type="text" value="'+esc(x.note)+'"></div></div><div class="bar" style="margin-top:12px"><button type="button" class="btn" onclick="saveE()">Save</button><button type="button" class="btn g" onclick="$(\'#dlg\').close()">Cancel</button>'+(id?'<button type="button" class="btn d" onclick="delE()">Delete</button>':"")+'</div>';
-$("#frm").oninput=null;$("#frm").innerHTML=h;$("#dlg").showModal()}
-function saveE(){var e=$("#frm").elements,o={date:e.date.value,cat:e.cat.value,amt:n(e.amt.value),note:e.note.value};
-if(!o.date||!o.amt){alert("Enter a date and an amount.");return}
-if(editId){var i=D.exp.findIndex(function(y){return y.id===editId});o.id=editId;D.exp[i]=o}else{o.id="e"+Date.now();D.exp.push(o)}
-$("#dlg").close();save()}
-function delE(){if(confirm("Delete this expense?")){D.exp=D.exp.filter(function(x){return x.id!==editId});$("#dlg").close();save()}}
-
-function summary(){var h='<div class="bar"><label style="margin:0">Year</label><input type="number" value="'+yr+'" onchange="yr=+this.value;render()" style="width:100px">'+bk()+'</div><div class="card w"><table><tr><th class="l">Month</th><th>Cars sold</th><th>Revenue</th><th>Vehicle cost</th><th>Gross profit</th><th>Expenses</th><th>Net profit</th><th>Cars bought</th></tr>';
-var T=[0,0,0,0,0,0,0];
-for(var m=0;m<12;m++){var k=yr+"-"+("0"+(m+1)).slice(-2),c=calc(k),r=[c.s.length,c.rev,c.vc,c.gross,c.ex,c.net,c.b.length];r.forEach(function(x,i){T[i]+=x});
-h+='<tr><td class="l">'+MON[m]+'</td><td>'+r[0]+'</td><td>'+fmt(r[1])+'</td><td>'+fmt(r[2])+'</td><td>'+fmt(r[3])+'</td><td>'+fmt(r[4])+'</td><td class="'+cl(r[5])+'">'+fmt(r[5])+'</td><td>'+r[6]+'</td></tr>'}
-h+='<tr class="tot"><td class="l">Year total</td><td>'+T[0]+'</td><td>'+fmt(T[1])+'</td><td>'+fmt(T[2])+'</td><td>'+fmt(T[3])+'</td><td>'+fmt(T[4])+'</td><td class="'+cl(T[5])+'">'+fmt(T[5])+'</td><td>'+T[6]+'</td></tr></table></div>';
-return h+'<p class="note">Expenses include salary, rent, electricity, Carfax, CarGurus, CRM, marketing and other. Net profit = gross profit − expenses.</p>'}
-
-function exp(share){try{localStorage.setItem("rbbk",today())}catch(e){}
-var blob=new Blob([JSON.stringify(D,null,1)],{type:"application/json"}),name="RajBros_backup_"+today()+".json";
-if(share&&navigator.canShare){var f=new File([blob],name,{type:"application/json"});if(navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(function(){});return}}
-var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click()}
-$("#imp").onchange=function(){var f=this.files[0];this.value="";if(!f)return;var r=new FileReader();r.onload=function(){try{var d=JSON.parse(r.result);if(!Array.isArray(d.vehicles))throw 0;d=mig(d);
-if(confirm("MERGE this backup into current data?\n\nOK = merge (keeps both devices' data; same record = backup version wins)\nCancel = more options")){
-d.vehicles.forEach(function(v){var i=D.vehicles.findIndex(function(x){return x.id===v.id});if(i<0)D.vehicles.push(v);else D.vehicles[i]=v});
-d.exp.forEach(function(v){var i=D.exp.findIndex(function(x){return x.id===v.id});if(i<0)D.exp.push(v);else D.exp[i]=v});Object.keys(d.expenses).forEach(function(k){D.expenses[k]=Object.assign(D.expenses[k]||{},d.expenses[k])});save()}
-else if(confirm("Replace ALL current data with this backup?")){D={vehicles:d.vehicles,exp:d.exp,expenses:d.expenses};save()}}catch(e){alert("That is not a valid backup file.")}};r.readAsText(f)};
-document.querySelectorAll("nav button").forEach(function(b){b.onclick=function(){tab=b.dataset.t;render();window.scrollTo(0,0)}});
-init();
-</script></body></html>
+var EDT=today();
+function expenses(){
+if((EDT||"").slice(0,7)!==ek)EDT=ek===today().slice(0,7)?today():ek+"-01";
+var t=exOf(ek),lg=D.expenses[ek]||{},
+h='<div class="bar"><button class="btn" onclick="exp(1,\'exp\')">Send Expenses PDF (WhatsApp / Email)</button><button class="btn g" onclick="exp(0,\'exp\')">Download Expenses PDF</button><button class="btn g" onclick="exp(1)">Full report PDF</button></div><div class="card"><h3 class="sec" style="margin-top:0">Add new expenses</h3><div style="max-width:220px;margin-bottom:10px"><label>Date</label><input type="date" id="edt" value="'+EDT+'" onchange="EDT=this.value||today()"></div>';
+CATS.forEach(function(c){h+='<div class="ex"><span>'+c+'</span><input type="number" step="any" inputmode="decimal" placeholder="0" data-c="'+c+'"></div>'});
+h+='<div class="bar" style="margin-top:10px"><button class="btn" id="sb" onclick="saveM()">Save expenses</button><span id="sm" class="pos"></span></div><p class="note">Sirf naye amounts likho aur Save dabao. Har save is date pe add hota hai, form khali ho jata hai (next entry ke liye), aur Overview, Daily, Monthly sab auto update hote hain.</p></div>';
+h+='<div class="card"><div class="bar"><label style="margin:0">Month</label><input type="month" value="'+ek+'" onchange="ek=this.value||ek;render()" style="width:auto"></div><div class="kpis">'+K(fmt(t),"Total expenses · "+ek)+'</div><div class="w" style="margin-top:10px"><table class="sm"><tr><th class="l">Category</th><th>Total</th></tr>';
+CATS.forEach(function(c){var x=exOf(ek,c);if(x)h+='<tr><td class="l">'+c+'</td><td>'+fmt(x)+'</td></tr>'});
+if(!t)h+='<tr><td colspan="2" class="l">No expenses this month yet.</td></tr>';
+h+='</table></div></d
