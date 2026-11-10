@@ -2,9 +2,9 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Dealer Tracker</title>
-<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0b0b0e"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#2563eb"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="mobile-web-app-capable" content="yes">
 <style>
-:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#0b0b0e;--card:#16161c;--tx:#f5efe2;--mu:#b3ab9a;--ac:#d4af37;--act:#14110a;--ln:#33302a;--ok:#4fd18b;--bad:#ff6f61;--hd:#050507;--hdt:#f5efe2;color-scheme:dark}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f3f6fb;--card:#ffffff;--tx:#1b2536;--mu:#5a6579;--ac:#2563eb;--act:#ffffff;--ln:#d9e0ec;--ok:#15803d;--bad:#dc2626;--hd:#1d4ed8;--hdt:#ffffff;color-scheme:light}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.4 Arial,Helvetica,sans-serif}
 header{padding:14px 16px;background:var(--hd);color:var(--hdt)}
@@ -42,7 +42,7 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 @media(max-width:600px){.ex{grid-template-columns:1fr 110px}.g2{grid-template-columns:1fr}input,select,textarea{font-size:16px}.btn{padding:11px 14px}main{padding:8px}.kpi b{font-size:16px}}
 #auth{display:none;max-width:380px;margin:40px auto;padding:0 12px}body.out #auth{display:block}body:not(.in) header,body:not(.in) nav,body:not(.in) main{display:none}
 dialog{max-height:92vh;overflow:auto}
-.btn.s{background:var(--ac);color:var(--act,var(--card))}.btn:hover{filter:brightness(1.12)}.btn:active{transform:scale(.97)}a.btn{text-decoration:none;display:inline-block}.btn.s,.btn{margin:1px}
+.btn.s{background:var(--ac);color:var(--act,var(--card))}.btn:hover{filter:brightness(1.12)}a.btn{text-decoration:none;display:inline-block}.btn.s,.btn{margin:1px}
 .btn,.btn.s{box-shadow:inset 0 0 0 1px rgba(128,128,128,.3)}
 .pg{height:10px;background:var(--ln);border-radius:6px;overflow:hidden;margin-top:4px}.pg i{display:block;height:100%;background:var(--ok);border-radius:6px}.pg.am i{background:#e0a800}.pg.rd i{background:var(--bad)}
 .bd{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:700;border:1px solid currentColor}.bd.a{color:var(--ok)}.bd.b{color:#b45309}.bd.r{color:var(--bad)}
@@ -50,30 +50,101 @@ dialog{max-height:92vh;overflow:auto}
 #prt{display:none}
 @media print{body>*:not(#prt){display:none!important}#prt{display:block;background:#fff;color:#000;font:12px Arial;--bg:#fff;--card:#fff;--tx:#000;--mu:#444;--ln:#bbb;--ok:#1b7f3b;--bad:#c0392b;--hd:#1a1a1a;--hdt:#fff}#prt *{-webkit-print-color-adjust:exact;print-color-adjust:exact}#prt table{min-width:0;font-size:11px}#prt .np{display:none}#prt tr.c{cursor:auto}.card,.kpi{break-inside:avoid}}
 
-body{font-family:"Helvetica Neue",Arial,sans-serif;background:radial-gradient(1200px 500px at 50% -10%,#1d1a12 0,var(--bg) 60%) fixed}
-header{background:linear-gradient(135deg,#000,#1a1710);border-bottom:2px solid var(--ac)}
-header h1{font:700 26px/1.1 "Cormorant Garamond",Georgia,serif;letter-spacing:.06em;color:var(--ac);text-transform:uppercase}
-header .btn.g{color:var(--ac)!important;border-color:rgba(212,175,55,.55)!important}
-nav{background:#0e0e12;border-bottom:1px solid var(--ln)}nav button:hover{color:var(--ac)}
-nav button.on{background:linear-gradient(135deg,#f0d78a,#d4af37 55%,#a67c1a);color:#14110a}
-.btn{background:linear-gradient(135deg,#f0d78a,#d4af37 55%,#a67c1a);color:#14110a;letter-spacing:.02em}
-.btn.g{background:transparent;color:var(--tx);border:1px solid var(--ln)}.btn.g:hover{border-color:var(--ac);color:var(--ac)}.btn.g.on{background:var(--ac);color:#14110a}.btn.d{background:var(--bad);color:#fff}
-.btn.s{background:linear-gradient(135deg,#f0d78a,#d4af37 55%,#a67c1a);color:#14110a}
-.card,.kpi{background:linear-gradient(180deg,#1a1a21,#121217);border-color:#2c2a24;box-shadow:0 6px 22px rgba(0,0,0,.45)}
-.kpi b{color:var(--ac)}th{border-bottom:2px solid var(--ac);color:var(--ac)}tr.c:hover td{background:#1d1c22}
-input:focus,select:focus,textarea:focus{outline:2px solid var(--ac);outline-offset:0}
-.warn{background:rgba(212,175,55,.12);color:#f0d78a;border:1px solid rgba(212,175,55,.35)}.bd.b{color:#e8b94a}
-.sec,dialog h3,dialog h2{font-family:"Cormorant Garamond",Georgia,serif;letter-spacing:.04em;color:var(--ac)}.sec{font-size:20px}
-dialog{border-color:var(--ac)}.bb,.pg i{background:var(--ac)}.pg i{background:var(--ok)}
-#auth .card{border:1px solid var(--ac)}#auth h2{font-size:30px;text-align:center;margin-bottom:14px}
-#pw{display:none;position:fixed;inset:0;z-index:150;background:rgba(5,5,7,.96);align-items:center;justify-content:center;padding:16px;overflow:auto}
-.pwc{max-width:440px;width:100%;text-align:center;border:1px solid var(--ac);border-radius:16px;padding:28px 22px;background:linear-gradient(180deg,#1a1a21,#0f0f13);box-shadow:0 0 60px rgba(212,175,55,.15)}
-.pwk{font-size:12px;letter-spacing:.35em;color:var(--mu)}.pwc h2{font-size:30px;margin:10px 0}.pwp b{font:700 56px "Cormorant Garamond",Georgia,serif;color:var(--ac)}.pwp span{color:var(--mu)}
+/* ===== Bright app theme (no animation, normal system font) ===== */
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:15px;line-height:1.45;background:var(--bg);color:var(--tx)}
+header{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 2px 8px rgba(30,64,175,.25)}
+header h1{font:700 20px/1.2 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#fff;letter-spacing:0;text-transform:none}
+header p{opacity:.9}
+header .btn.g{color:#fff!important;border-color:rgba(255,255,255,.65)!important;background:rgba(255,255,255,.14);border-radius:99px}
+header .btn.g:hover{background:rgba(255,255,255,.28)}
+nav{background:#fff;border-bottom:1px solid var(--ln);box-shadow:0 2px 6px rgba(15,23,42,.06);scrollbar-width:thin}
+nav button{border-radius:99px;font-size:14px;color:var(--mu)}
+nav button:hover{background:#eaf1ff;color:var(--ac)}
+nav button.on{background:var(--ac);color:#fff}
+.btn{background:var(--ac);color:var(--act,#fff);border-radius:10px;box-shadow:none}
+.btn:hover{filter:brightness(1.08)}
+.btn.s{background:var(--ok);color:#fff}
+.btn.g,.btn.g.s{background:#fff;color:var(--tx);border:1px solid #c5cfe0}
+.btn.g:hover{border-color:var(--ac);color:var(--ac)}
+.btn.g.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.btn.d{background:var(--bad);color:#fff}
+.card,.kpi{background:#fff;border:1px solid var(--ln);border-radius:12px;box-shadow:0 1px 3px rgba(15,23,42,.07)}
+.kpi{border-left:4px solid var(--ac)}
+.kpi b{color:var(--tx);font-size:19px}
+.kpi b.pos{color:var(--ok)}.kpi b.neg{color:var(--bad)}.kpi b.old{color:var(--bad)}
+.kpi span{font-size:12px;color:var(--mu)}
+.sec{font-size:16px;font-weight:700;color:var(--tx);border-left:4px solid var(--ac);padding-left:10px}
+dialog h3,dialog h2{color:var(--tx)}
+th{background:#eaf0fa;color:#334155;border-bottom:1px solid var(--ln);font-size:12px}
+tr.c:hover td{background:#f1f6ff}
+tr.tot td{background:#eef4ff;font-weight:700}
+input,select,textarea{background:#fff;border:1px solid #c5cfe0;color:var(--tx)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px rgba(37,99,235,.18)}
+.warn{background:#fff7e0;color:#6b4a00;border:1px solid #f3d37a;border-left:4px solid #f59e0b;border-radius:10px}
+.bd.b{color:#b45309}
+dialog{background:#fff;color:var(--tx);border:1px solid var(--ln);border-radius:14px;box-shadow:0 20px 60px rgba(15,23,42,.28)}
+dialog::backdrop{background:rgba(15,23,42,.45)}
+.bb{background:var(--ac);opacity:1}
+.pg{background:#e3e9f3}.pg i{background:var(--ok)}.pg.am i{background:#f59e0b}.pg.rd i{background:var(--bad)}
+a{color:var(--ac)}
+.spin{display:none}
+/* Today dashboard */
+.today{border-left:4px solid var(--ac)}
+.today h3{margin:0 0 8px;font-size:17px}
+.todo{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--ln)}
+.todo:last-child{border-bottom:0}
+.todo .tl{font-weight:700}.todo .ts{color:var(--mu);font-size:13px}
+.todo .ta a{display:inline-block;padding:4px 10px;border:1px solid #c5cfe0;border-radius:8px;text-decoration:none;font-weight:700;font-size:13px;margin-left:4px}
+.tg{font-size:13px;font-weight:700;color:var(--mu);margin:10px 0 2px;text-transform:uppercase;letter-spacing:.04em}
+/* Paywall */
+#pw{display:none;position:fixed;inset:0;z-index:150;background:rgba(243,246,251,.97);align-items:center;justify-content:center;padding:16px;overflow:auto}
+.pwc{max-width:440px;width:100%;text-align:center;border:1px solid var(--ln);border-radius:16px;padding:28px 22px;background:#fff;color:var(--tx);box-shadow:0 20px 60px rgba(15,23,42,.18)}
+.pwk{font-size:12px;letter-spacing:.2em;color:var(--mu)}.pwc h2{font-size:24px;margin:10px 0;color:var(--tx)}.pwp b{font:700 44px system-ui,Arial,sans-serif;color:var(--ac)}.pwp span{color:var(--mu)}
 .pwc .btn{display:block;width:100%;margin:10px 0}.pwx{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:14px;border-top:1px solid var(--ln);padding-top:12px}
+/* No animation inside the app (login page keeps its own) */
+body.in *,body.in *::before,body.in *::after{animation:none!important;transition:none!important}
+html{scroll-behavior:auto}
+
+/* ===== Login: animated background ===== */
+#bg{display:none;position:fixed;inset:0;z-index:0;overflow:hidden;background:radial-gradient(ellipse at 50% 120%,#241d0a 0,#0b0b0e 55%,#050507 100%)}
+body.out #bg{display:block}
+#bg .orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;will-change:transform}
+#bg .o1{width:48vmax;height:48vmax;left:-14vmax;top:-16vmax;background:radial-gradient(circle,rgba(212,175,55,.55),transparent 68%);animation:d1 18s ease-in-out infinite alternate}
+#bg .o2{width:42vmax;height:42vmax;right:-14vmax;bottom:-14vmax;background:radial-gradient(circle,rgba(166,124,26,.6),transparent 68%);animation:d2 22s ease-in-out infinite alternate}
+#bg .o3{width:30vmax;height:30vmax;left:40%;top:30%;background:radial-gradient(circle,rgba(240,215,138,.22),transparent 70%);animation:d3 26s ease-in-out infinite alternate}
+@keyframes d1{to{transform:translate(18vmax,12vmax) scale(1.15)}}
+@keyframes d2{to{transform:translate(-16vmax,-10vmax) scale(1.2)}}
+@keyframes d3{to{transform:translate(-14vmax,10vmax) scale(.8)}}
+#bg .grid{position:absolute;left:-50%;right:-50%;bottom:-10%;height:70%;background-image:linear-gradient(rgba(212,175,55,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(212,175,55,.22) 1px,transparent 1px);background-size:56px 56px;transform:perspective(520px) rotateX(62deg);transform-origin:50% 100%;animation:gm 4s linear infinite;-webkit-mask-image:linear-gradient(to top,#000 0,transparent 85%);mask-image:linear-gradient(to top,#000 0,transparent 85%);opacity:.55}
+@keyframes gm{to{background-position:0 56px}}
+#bg .sweep{position:absolute;top:-20%;bottom:-20%;width:26vmax;left:-30vmax;background:linear-gradient(100deg,transparent,rgba(240,215,138,.10),transparent);transform:skewX(-18deg);animation:sw 9s ease-in-out infinite}
+@keyframes sw{0%{left:-30vmax}60%,100%{left:130%}}
+#bg canvas{position:absolute;inset:0;width:100%;height:100%}
+#bg .vig{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,.65) 100%)}
+body.out{background:#050507;--bg:#0b0b0e;--card:#16161c;--tx:#f5efe2;--mu:#b3ab9a;--ac:#d4af37;--act:#14110a;--ln:#33302a;--bad:#ff6f61;--ok:#4fd18b;color-scheme:dark;color:var(--tx)}
+body.out .btn{background:linear-gradient(135deg,#f0d78a,#d4af37 55%,#a67c1a);color:#14110a}
+body.out .btn.g{background:transparent;color:var(--tx);border:1px solid var(--ln)}
+body.out .btn.g:hover{border-color:var(--ac);color:var(--ac)}
+body.out input{background:rgba(5,5,7,.6);color:var(--tx);border-color:#2e2b24}
+body.out a{color:var(--ac)}
+#auth{position:relative;z-index:1;min-height:100vh;display:none;align-items:center;justify-content:center;margin:0 auto;padding:20px 14px;max-width:none}
+body.out #auth{display:flex}
+#auth .card{width:100%;max-width:390px;margin:0;padding:26px 24px 20px;border-radius:20px;background:linear-gradient(180deg,rgba(26,26,33,.78),rgba(14,14,18,.86));backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);border:1px solid rgba(212,175,55,.55);box-shadow:0 30px 90px rgba(0,0,0,.7),0 0 70px rgba(212,175,55,.14),inset 0 1px 0 rgba(255,255,255,.07);animation:rise .8s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(26px) scale(.97)}to{opacity:1;transform:none}}
+#auth .card::before{content:"";position:absolute;inset:-1px;border-radius:20px;padding:1px;background:linear-gradient(120deg,transparent 30%,rgba(240,215,138,.9),transparent 70%);background-size:250% 100%;animation:shine 5s linear infinite;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.amark{width:54px;height:54px;margin:0 auto 10px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;color:#14110a;background:linear-gradient(135deg,#f0d78a,#d4af37 55%,#a67c1a);box-shadow:0 8px 28px rgba(212,175,55,.45);animation:fl 4s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-5px) rotate(6deg)}}
+#auth h2{background:linear-gradient(90deg,#a67c1a,#f0d78a,#d4af37,#f0d78a,#a67c1a);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shine 6s linear infinite;margin-bottom:2px!important}
+.atag{text-align:center;color:var(--mu);font-size:12px;letter-spacing:.08em;margin:0 0 16px;text-transform:uppercase}
+#auth label{text-transform:uppercase;letter-spacing:.08em;font-size:10.5px;margin-bottom:3px}
+#auth input{background:rgba(5,5,7,.6);padding:11px 12px}
+#auth .note a{color:var(--ac);text-decoration:none}#auth .note a:hover{text-decoration:underline}
+@media(prefers-reduced-motion:reduce){#bg *,#auth .card,.amark,header::after,header h1,#auth h2{animation:none!important}}
 </style></head><body>
 <header style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div style="display:flex;align-items:center;gap:10px"><img id="lg" alt="" style="display:none;height:38px;max-width:90px;object-fit:contain;border-radius:6px;background:#fff"><div><h1 id="bn">Dealer Tracker</h1><p><span id="cs"></span></p></div></div><div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end"><button class="btn g" id="admb" style="display:none;color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="openAdm()">🛡 Admin</button> <button class="btn g" style="color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="openSub()">💳 Plan</button> <button class="btn g" style="color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="printRep()">🖨 Print</button> <button class="btn g" style="color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="openS()">⚙ Settings</button> <button class="btn g" style="color:var(--hdt);border-color:var(--hdt);padding:6px 10px" onclick="firebase.auth().signOut()">Log out</button></div></header>
 <nav id="nav"><button data-t="w" class="on">Overview</button><button data-t="v">Vehicles</button><button data-t="o">Sold</button><button data-t="d">Daily</button><button data-t="e">Expenses</button><button data-t="s">Monthly</button><button data-t="c">Custom</button><button data-t="r">Receivables</button><button data-t="n">Rentals</button><button data-t="p">Progress</button><button data-t="t">Staff</button><button data-t="l">Leads</button><button data-t="x">Reports</button></nav><div id="trb" style="display:none;padding:8px 12px;text-align:center;font-weight:700"></div>
-<div id="auth"><div class="card"><h2 style="margin-top:0">Dealer Tracker</h2><div id="an" style="display:none;margin-bottom:8px"><label>Dealership name</label><input id="anm"></div><label>Email</label><input id="ae" type="email" autocomplete="username" style="margin-bottom:8px"><label>Password (min 6 characters)</label><input id="ap" type="password" autocomplete="current-password" style="margin-bottom:12px" onkeydown="if(event.key==='Enter')adone()"><button class="btn" id="ab" onclick="adone()" style="width:100%">Sign in</button><button class="btn g" onclick="gsign()" style="width:100%;margin-top:8px">Continue with Google</button><p class="note" id="amsg" style="color:var(--bad)"></p><p class="note"><a href="#" id="at" onclick="amode(!SU);return false">New dealership? Create an account</a> · <a href="#" onclick="forgot();return false">Forgot password?</a> · <a href="#" onclick="openP();return false">Privacy policy</a></p></div></div>
+<div id="bg" aria-hidden="true"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="grid"></div><div class="sweep"></div><canvas id="pc"></canvas><div class="vig"></div></div>
+<div id="auth"><div class="card"><div class="amark">◆</div><h2 style="margin-top:0">Dealer Tracker</h2><p class="atag">Stock · Sales · Profit — all in one place</p><div id="an" style="display:none;margin-bottom:8px"><label>Dealership name</label><input id="anm"></div><label>Email</label><input id="ae" type="email" autocomplete="username" style="margin-bottom:8px"><label>Password (min 6 characters)</label><input id="ap" type="password" autocomplete="current-password" style="margin-bottom:12px" onkeydown="if(event.key==='Enter')adone()"><button class="btn" id="ab" onclick="adone()" style="width:100%">Sign in</button><button class="btn g" onclick="gsign()" style="width:100%;margin-top:8px">Continue with Google</button><p class="note" id="amsg" style="color:var(--bad)"></p><p class="note"><a href="#" id="at" onclick="amode(!SU);return false">New dealership? Create an account</a> · <a href="#" onclick="forgot();return false">Forgot password?</a> · <a href="#" onclick="openP();return false">Privacy policy</a></p></div></div>
 <main id="app"></main>
 <div id="pw"><div class="pwc"><div class="pwk">DEALER TRACKER</div><h2 id="pwt">Your free trial has ended</h2><div class="pwp"><b id="pwprice"></b><span> / month</span></div><p class="note" style="font-size:14px">Your data is safe and untouched. Subscribe to continue. Billed on the 10th of every month.</p><a id="pwpay" class="btn" target="_blank" rel="noopener">Pay securely with Stripe</a><button type="button" class="btn g" id="pwr" onclick="pwRefresh()">I've paid – refresh status</button><p class="note">Secure checkout by Stripe. Access switches on automatically after payment.</p><div class="pwx"><button type="button" class="btn g s" onclick="exCSV('inv')">Export stock</button><button type="button" class="btn g s" onclick="exCSV('sold')">Export sales</button><button type="button" class="btn g s" onclick="exCSV('exp')">Export expenses</button><button type="button" class="btn g s" onclick="firebase.auth().signOut()">Log out</button></div></div></div>
 <div id="ld"><span class="spin"></span><div>Loading your data…</div></div><div id="prt"></div>
@@ -233,7 +304,7 @@ if(isAdm()||!TR.trialEnd){e.style.display="none";return}
 if(confirming())msg="⏳ Confirming your payment… this takes a few seconds";
 else if(TR.paidUntil>now){var d=Math.ceil((TR.paidUntil-now)/864e5);if(d>7){e.style.display="none";return}msg="Payment due "+dfm(TR.paidUntil,1)+" ("+dueIn()+") – tap to pay $"+PRICE}
 else{var t=Math.ceil((TR.trialEnd-now)/864e5);if(t>0)msg="Free trial: "+t+" day"+(t>1?"s":"")+" left – tap to subscribe ($"+PRICE+"/month)";else{msg="Your access has ended. Your data is safe and can be exported – tap to pay $"+PRICE+" and continue";bad=1}}
-e.style.display="block";e.textContent=msg;e.style.background=bad?"#3b1612":"#2a2110";e.style.color=bad?"#ffb4a8":"#f0d78a";e.style.borderBottom="1px solid rgba(212,175,55,.35)";e.style.cursor="pointer";e.onclick=openSub}
+e.style.display="block";e.textContent=msg;e.style.background=bad?"#fee2e2":"#fef3c7";e.style.color=bad?"#991b1b":"#78350f";e.style.borderBottom="1px solid #f3d37a";e.style.cursor="pointer";e.onclick=openSub}
 function subStat(){var now=Date.now(),h="";
 if(!TR.trialEnd)h="Loading…";
 else if(TR.paidUntil>now)h='<span class="bd a">Active</span> Paid until <b>'+dfm(TR.paidUntil,1)+'</b><div class="note">Next payment due '+dfm(TR.paidUntil,1)+' ('+dueIn()+') · in <b class="cd" data-t="'+TR.paidUntil+'"></b></div>';
@@ -305,7 +376,7 @@ function bk(){return '<button class="btn" onclick="exp(1)">Send / Download PDF</
 
 function overview(){var p={d:today(),m:today().slice(0,7),y:today().slice(0,4),a:""}[PR],r=calc(p),lb=null;
 try{lb=localStorage.getItem("rbbk")}catch(e){}
-var h=alerts()+quick();if(D.vehicles.length&&(!lb||(new Date()-new Date(lb))>6048e5))h+='<div class="warn">⚠ No backup in the last 7 days. Tap “Send / Download PDF”, then “Download data backup”, and save the file somewhere safe.</div>';
+var h=quick()+todayCard()+alerts();if(D.vehicles.length&&(!lb||(new Date()-new Date(lb))>6048e5))h+='<div class="warn">⚠ No backup in the last 7 days. Tap “Send / Download PDF”, then “Download data backup”, and save the file somewhere safe.</div>';
 h+='<div class="bar">';[["d","Today"],["m","This month"],["y","This year"],["a","All time"]].forEach(function(x){h+='<button class="btn g'+(PR===x[0]?" on":"")+'" onclick="PR=\''+x[0]+'\';render()">'+x[1]+'</button>'});h+=bk()+'</div>';
 h+='<h3 class="sec" style="margin-top:4px">Balance</h3><div class="kpis">'+balK()+'</div><h3 class="sec">Profit &amp; Loss</h3><div class="kpis">'+K(r.s.length,"Cars sold")+K(fmt(r.rev),"Sales (money in)")+K(fmt(r.gross),"Gross profit on cars",cl(r.gross))+K(fmt(r.ex),"Office, marketing &amp; salary")+K(fmt(r.net),"NET PROFIT / LOSS",cl(r.net))+K(r.s.length?fmt(r.gross/r.s.length):"–","Avg profit per car")+K(r.loss,"Cars sold at a loss")+K(r.s.length?Math.round(r.dy/r.s.length):"–","Avg days to sell")+K(fmt(rtInc(p)),"Rental income received","pos")+K(fmt(r.net+rtInc(p)),"TOTAL NET incl. rentals",cl(r.net+rtInc(p)))+'</div>';
 h+='<div class="card w" style="margin-top:12px"><table class="sm"><tr><th class="l">Detailed statement</th><th>Amount</th></tr>'+R("Sales + back-end income",r.rev,"",1)+R("− Vehicle purchase price",-r.pr)+R("− VAT &amp; DVLA fees",-r.tx)+R("− Reconditioning",-r.rc)+R("− Floorplan fees",-r.fl)+R("− Transport",-r.tp)+R("− Salesperson commissions",-r.cm)+R("Gross profit",r.gross,cl(r.gross),1);
@@ -582,12 +653,26 @@ function pn(v){return [v.year,v.make,v.model].filter(Boolean).join(" ")}
 function logA(act,what){try{if(fdb&&UID)fdb.collection("users").doc(UID).collection("audit").add({t:Date.now(),by:(firebase.auth().currentUser||{}).email||"",act:act,what:what})}catch(e){}}
 function alerts(){var h="",a=D.vehicles.filter(function(v){return !sold(v)&&days(v)>AGE()}),od=D.vehicles.filter(function(v){return bal(v)>0&&v.due&&v.due<today()});
 if(a.length)h+='<div class="warn">⏳ <b>'+a.length+' car'+(a.length>1?'s':'')+'</b> in stock over '+AGE()+' days ('+fmt(a.reduce(function(s,v){return s+cost(v)},0))+' tied up): '+esc(a.slice(0,6).map(function(v){return v.stock||pn(v)}).join(", "))+(a.length>6?"…":"")+'</div>';
-if(od.length)h+='<div class="warn">💸 <b>'+od.length+' overdue payment'+(od.length>1?'s':'')+'</b> – '+fmt(od.reduce(function(s,v){return s+bal(v)},0))+' owed. Open the Receivables tab.</div>';return h+rtAlerts()}
+return h+rtAlerts()}
 function pbar(){var h='<div class="bar">';[["d","Today"],["m","This month"],["y","This year"],["a","All time"]].forEach(function(x){h+='<button class="btn g'+(PR===x[0]?" on":"")+'" onclick="PR=\''+x[0]+'\';render()">'+x[1]+'</button>'});return h+'</div>'}
 function vById(id){return D.vehicles.find(function(x){return x.id===id})}
 var ukd=function(d){if(!d)return"";var p=String(d).split("-");return p.length===3?p[1]+"/"+p[2]+"/"+p[0]:d};
 function fT(id,q){q=q.toLowerCase();document.querySelectorAll("#"+id+" tr[data-s]").forEach(function(r){r.style.display=r.dataset.s.indexOf(q)<0?"none":""})}
-var _rt;function rq(){clearTimeout(_rt);_rt=setTimeout(function(){rq()},40)}
+var _rt;function rq(){clearTimeout(_rt);_rt=setTimeout(function(){if(!UID)return;var a=document.activeElement;if(a&&a.tagName==="INPUT"&&$("#app").contains(a)){rq();return}try{render()}catch(e){console.error(e);var m=$("#app");if(m)m.innerHTML='<div class="warn">Something went wrong showing this page. Tap another tab and come back. ('+esc(e.message)+')</div>'}},80)}
+function todayCard(){var t=today(),r=calc(t),L=D.custom.filter(function(x){return x.kind==="lead"&&x.cat!=="Won"&&x.cat!=="Lost"&&x.date&&x.date<=t}).sort(function(a,b){return a.date<b.date?-1:1}),
+P=D.vehicles.filter(function(v){return bal(v)>0&&v.due&&v.due<=t}).sort(function(a,b){return a.due<b.due?-1:1}),
+tel=function(p){p=String(p||"").replace(/[^\d+]/g,"");return p?'<a href="tel:'+ea(p)+'" onclick="event.stopPropagation()">Call</a>':""},
+dn=new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"}),
+h='<div class="card today"><h3>Today · '+dn+'</h3><div class="kpis">'+K(r.s.length,"Cars sold today")+K(fmt(r.gross),"Gross profit today",cl(r.gross))+K(fmt(r.ex),"Expenses today")+K(r.b.length,"Cars bought today")+K(fmt(cashBal()),"Cash / bank balance",cl(cashBal()))+'</div>';
+h+='<div class="tg">Payments to collect ('+P.length+')</div>';
+if(!P.length)h+='<div class="note">No payments due or overdue. ✓</div>';
+P.slice(0,8).forEach(function(v){var late=v.due<t;h+='<div class="todo"><div><div class="tl">'+esc(v.cust||"Customer")+' – '+esc(pn(v))+'</div><div class="ts '+(late?"old":"")+'">'+fmt(bal(v))+' owed · '+(late?"overdue since ":"due today ")+esc(ukd(v.due))+'</div></div><div class="ta">'+tel(v.phone)+'<a href="#" onclick="tab=\'r\';render();return false">Open</a></div></div>'});
+if(P.length>8)h+='<div class="note">+ '+(P.length-8)+' more in Receivables.</div>';
+h+='<div class="tg">Leads to follow up ('+L.length+')</div>';
+if(!L.length)h+='<div class="note">No follow-ups due. ✓</div>';
+L.slice(0,8).forEach(function(x){var late=x.date<t;h+='<div class="todo"><div><div class="tl">'+esc(x.title)+(x.car?' – '+esc(x.car):'')+'</div><div class="ts '+(late?"old":"")+'">'+esc(x.cat)+' · follow-up '+(late?"overdue since ":"today ")+esc(ukd(x.date))+'</div></div><div class="ta">'+tel(x.phone)+'<a href="#" onclick="openLd(\''+x.id+'\');return false">Update</a></div></div>'});
+if(L.length>8)h+='<div class="note">+ '+(L.length-8)+' more in Leads.</div>';
+return h+'<div class="bar" style="margin-top:10px"><button class="btn g" onclick="tab=\'d\';DD=today();render()">Open today\'s Daily sheet</button></div></div>'}
 function quick(){return '<div class="bar"><button class="btn s" onclick="openF(null)">+ Vehicle</button><button class="btn s" onclick="openF(null,1)">+ Sold car</button><button class="btn s" onclick="openE(null)">+ Expense</button><button class="btn s" onclick="tab=\'r\';render()">+ Payment</button><button class="btn s" onclick="openC()">+ Item</button></div>'}
 function cashBal(){var t=n(SET.ob);D.vehicles.forEach(function(v){var fl=v.paid==="Floored"&&!sold(v);t-=cost(v)-(fl?n(v.price):0);if(sold(v)){t+=v.recv!==""&&v.recv!=null?n(v.recv):n(v.sprice);t+=n(v.back);if(v.cpaid)t-=comm(v)}});return t+rtInc("")-exOf("")}
 function balK(){var cb=cashBal(),ow=0,co=0,sc=0;D.vehicles.forEach(function(v){ow+=bal(v);if(sold(v)&&!v.cpaid)co+=comm(v);if(!sold(v))sc+=cost(v)});
@@ -766,5 +851,13 @@ setInterval(function(){document.querySelectorAll(".cd").forEach(function(e){e.te
 window.addEventListener("error",function(e){console.error(e.error||e.message)});window.addEventListener("unhandledrejection",function(e){console.error(e.reason)});
 window.addEventListener("offline",function(){var c=$("#cs");if(c)c.textContent="⚠ Offline – changes will sync when you reconnect"});window.addEventListener("online",function(){var c=$("#cs");if(c)c.textContent="☁ Back online – syncing…"});
 init();
+/* login background: floating gold particles (runs only while logged out) */
+(function(){var c=document.getElementById("pc");if(!c||matchMedia("(prefers-reduced-motion:reduce)").matches)return;var x=c.getContext("2d"),P=[],W=0,H=0,raf=0,dpr=Math.min(2,window.devicePixelRatio||1);
+function rs(){W=c.clientWidth;H=c.clientHeight;c.width=W*dpr;c.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0);var N=Math.min(70,Math.round(W*H/16000));while(P.length<N)P.push(mk(1));P.length=N}
+function mk(r){return{x:Math.random()*W,y:r?Math.random()*H:H+10,s:Math.random()*2+.6,v:Math.random()*.45+.12,dx:(Math.random()-.5)*.25,a:Math.random()*.6+.25,t:Math.random()*6}}
+function draw(){x.clearRect(0,0,W,H);P.forEach(function(p,i){p.y-=p.v;p.x+=p.dx+Math.sin(p.t+=.012)*.15;if(p.y<-10||p.x<-10||p.x>W+10)P[i]=mk(0);var g=x.createRadialGradient(p.x,p.y,0,p.x,p.y,p.s*5);g.addColorStop(0,"rgba(240,215,138,"+p.a+")");g.addColorStop(1,"rgba(212,175,55,0)");x.fillStyle=g;x.beginPath();x.arc(p.x,p.y,p.s*5,0,6.283);x.fill()});
+for(var i=0;i<P.length;i++)for(var j=i+1;j<P.length;j++){var dx=P[i].x-P[j].x,dy=P[i].y-P[j].y,d=dx*dx+dy*dy;if(d<9000){x.strokeStyle="rgba(212,175,55,"+(.12*(1-d/9000))+")";x.lineWidth=.6;x.beginPath();x.moveTo(P[i].x,P[i].y);x.lineTo(P[j].x,P[j].y);x.stroke()}}}
+function loop(){if(document.body.classList.contains("out")){if(!document.hidden)draw();raf=requestAnimationFrame(loop)}else setTimeout(loop,500)}
+addEventListener("resize",rs);rs();loop()})();
 if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});
 </script></body></html>
